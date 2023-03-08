@@ -3,13 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 
-// Generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
-  });
-};
-
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -32,13 +25,32 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
-  if (user) {
-    res.status(201).json({
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(400).json("invalid user data");
-  }
+  const accessToken = jwt.sign(
+    {
+      UserInfo: {
+        id: user._id,
+      },
+    },
+    process.env.ACCESS_TOKEN,
+    { expiresIn: "1m" }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: user._id},
+    process.env.REFRESH_TOKEN,
+    { expiresIn: "2m" }
+  );
+
+  // Create secure cookie with refresh token
+  res.cookie("jwt", refreshToken, {
+    httpOnly: true, 
+    secure: false, //https
+    sameSite: "None", //cross-site cookie
+    maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+  });
+
+  // Send accessToken containing username and roles
+  res.json({ accessToken });
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -48,9 +60,33 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    res.json({
-      token: generateToken(user._id),
+    
+    const accessToken = jwt.sign(
+      {
+        UserInfo: {
+          id: user._id,
+        },
+      },
+      process.env.ACCESS_TOKEN,
+      { expiresIn: "1m" }
+    );
+  
+    const refreshToken = jwt.sign(
+      { id: user._id},
+      process.env.REFRESH_TOKEN,
+      { expiresIn: "2m" }
+    );
+  
+    // Create secure cookie with refresh token
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true, //accessible only by web server
+      secure: false, //https
+      sameSite: "None", //cross-site cookie
+      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
     });
+  
+    // Send accessToken containing username and roles
+    res.json({ accessToken });
   } else {
     res.status(400).json("Invalid credentials");
   }

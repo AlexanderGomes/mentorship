@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password } = req.body.userData;
 
   if (!name || !email || !password) {
     res.status(400).json("Please add all fields");
@@ -25,6 +25,79 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
+  const tokens = generateTokens(user);
+
+  // Create secure cookie with refresh token
+  res.cookie("jwt", tokens.refreshToken, {
+    httpOnly: true,
+    secure: false, //https
+    sameSite: "None", //cross-site cookie
+    maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+  });
+
+  // Send accessToken containing username and roles
+  res.json({ accessToken: tokens.accessToken });
+});
+
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  // Check for user email
+  const user = await User.findOne({ email });
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    const tokens = generateTokens(user);
+
+    // Create secure cookie with refresh token
+    res.cookie("jwt", tokens.refreshToken, {
+      httpOnly: true, //accessible only by web server
+      secure: false, //https
+      sameSite: "None", //cross-site cookie
+      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+    });
+
+    // Send accessToken containing username and roles
+    res.json({ accessToken: tokens.accessToken });
+  } else {
+    res.status(400).json("Invalid credentials");
+  }
+});
+
+const refresh = (req, res) => {
+  const cookies = req.cookies;
+
+  if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+
+  const refreshToken = cookies.jwt;
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN, async (err, decoded) => {
+    if (err) return res.status(403).json({ message: "Forbidden" });
+
+    const user = await User.findOne({
+      _id: decoded.id,
+    }).exec();
+
+    if (!user) return res.status(401).json({ message: "Unauthorized" });
+
+    const accessToken = jwt.sign(
+      {
+        UserInfo: {
+          id: user._id,
+        },
+      },
+      process.env.ACCESS_TOKEN,
+      { expiresIn: "1m" }
+    );
+
+    res.json({ accessToken });
+  });
+};
+
+const testRoute = async (req, res) => {
+  res.send("protected route allowed");
+};
+
+const generateTokens = (user) => {
   const accessToken = jwt.sign(
     {
       UserInfo: {
@@ -35,64 +108,27 @@ const registerUser = asyncHandler(async (req, res) => {
     { expiresIn: "1m" }
   );
 
-  const refreshToken = jwt.sign(
-    { id: user._id},
-    process.env.REFRESH_TOKEN,
-    { expiresIn: "2m" }
-  );
+  const decodedToken = jwt.decode(accessToken);
+  const expiresIn = decodedToken.exp - decodedToken.iat;
 
-  // Create secure cookie with refresh token
-  res.cookie("jwt", refreshToken, {
-    httpOnly: true, 
-    secure: false, //https
-    sameSite: "None", //cross-site cookie
-    maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+  const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN, {
+    expiresIn: "2m",
   });
 
-  // Send accessToken containing username and roles
-  res.json({ accessToken });
-});
+  return { accessToken: { accessToken, expiresIn }, refreshToken };
+};
 
-const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  // Check for user email
-  const user = await User.findOne({ email });
-
-  if (user && (await bcrypt.compare(password, user.password))) {
-    
-    const accessToken = jwt.sign(
-      {
-        UserInfo: {
-          id: user._id,
-        },
-      },
-      process.env.ACCESS_TOKEN,
-      { expiresIn: "1m" }
-    );
-  
-    const refreshToken = jwt.sign(
-      { id: user._id},
-      process.env.REFRESH_TOKEN,
-      { expiresIn: "2m" }
-    );
-  
-    // Create secure cookie with refresh token
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true, //accessible only by web server
-      secure: false, //https
-      sameSite: "None", //cross-site cookie
-      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-    });
-  
-    // Send accessToken containing username and roles
-    res.json({ accessToken });
-  } else {
-    res.status(400).json("Invalid credentials");
-  }
-});
+const logout = (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.sendStatus(204); //No content
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+  res.json({ message: "Cookie cleared" });
+};
 
 module.exports = {
   registerUser,
   loginUser,
+  refresh,
+  testRoute,
+  logout,
 };

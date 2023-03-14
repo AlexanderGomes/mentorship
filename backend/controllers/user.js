@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body.userData;
+  const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
     res.status(400).json("Please add all fields");
@@ -27,16 +27,17 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const tokens = generateTokens(user);
 
+
   // Create secure cookie with refresh token
-  res.cookie("jwt", tokens.refreshToken, {
+ res.cookie("jwt", tokens.refreshToken, {
     httpOnly: true,
-    secure: false, //https
+    secure: true, //https
     sameSite: "None", //cross-site cookie
     maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
   });
 
   // Send accessToken containing username and roles
-  res.json({ accessToken: tokens.accessToken });
+  res.json(tokens.accessToken);
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -57,7 +58,7 @@ const loginUser = asyncHandler(async (req, res) => {
     });
 
     // Send accessToken containing username and roles
-    res.json({ accessToken: tokens.accessToken });
+    res.json(tokens.accessToken);
   } else {
     res.status(400).json("Invalid credentials");
   }
@@ -86,10 +87,10 @@ const refresh = (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "1m" }
+      { expiresIn: "2m" }
     );
 
-    res.json({ accessToken });
+    res.json(accessToken);
   });
 };
 
@@ -98,30 +99,31 @@ const testRoute = async (req, res) => {
 };
 
 const generateTokens = (user) => {
+  
   const accessToken = jwt.sign(
     {
-      UserInfo: {
-        id: user._id,
-      },
+      id: user._id.toString(),
     },
     process.env.ACCESS_TOKEN,
     { expiresIn: "1m" }
   );
 
-  const decodedToken = jwt.decode(accessToken);
-  const expiresIn = decodedToken.exp - decodedToken.iat;
 
-  const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN, {
-    expiresIn: "2m",
-  });
+  const refreshToken = jwt.sign(
+    { id: user._id.toString() },
+    process.env.REFRESH_TOKEN,
+    {
+      expiresIn: "2m",
+    }
+  );
 
-  return { accessToken: { accessToken, expiresIn }, refreshToken };
+  return { accessToken, refreshToken };
 };
 
 const logout = (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(204); //No content
-  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: false });
   res.json({ message: "Cookie cleared" });
 };
 

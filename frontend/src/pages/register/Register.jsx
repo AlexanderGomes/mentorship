@@ -67,8 +67,8 @@ const Register = () => {
     <div className="register__main">
       <form onSubmit={formik.handleSubmit} className="register__form">
         <div className="register__top">
-          <h2>Mentor</h2>
-          <p>guide others into a better career</p>
+          <h2>Career<span className="register__span">Connect</span></h2>
+          <p>Empowering through Mentorship: Connect, Grow, Succeed.</p>
         </div>
         <div className="register__email__error">
           {isEmailTaken && <p>Email is taken</p>}

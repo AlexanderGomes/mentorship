@@ -8,7 +8,7 @@ const useRequireAuth = () => {
   const location = useLocation();
 
   if (!accessToken) {
-     navigate("/auth/register", { state: { from: location }, replace: true });
+     navigate("/auth/register", { state: { from: location }, replace: true })
   }
 
   return accessToken && <Outlet />

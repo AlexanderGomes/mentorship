@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Register, Login, Dash } from "./pages";
+import { Register, Login, Dash, Welcome } from "./pages";
 import PersistentLogin from "./hooks/PersistentLogin";
 import Auth from "./hooks/Auth";
 import "./App.css";
@@ -8,6 +8,7 @@ import "./App.css";
 function App() {
   return (
     <Routes>
+      <Route path="/" element={<Welcome />} />
       <Route path="/auth/register" element={<Register />} />
       <Route path="/auth/login" element={<Login />} />
 

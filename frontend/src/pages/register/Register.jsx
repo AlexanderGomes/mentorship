@@ -8,6 +8,9 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import "./Register.css";
 
 const Register = () => {
+  const [isEmailTaken, setIsEmailTaken] = useState(false);
+  let emailErrorMsg = "user already exists";
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,10 +53,15 @@ const Register = () => {
   useEffect(() => {
     if (isSuccess || accessToken) {
       navigate("/dash");
+      dispatch(reset());
     }
-
-    dispatch(reset());
   }, [accessToken, isSuccess]);
+
+  useEffect(() => {
+    if (isError && message === emailErrorMsg) {
+      setIsEmailTaken(true);
+    }
+  }, [message, isError]);
 
   return (
     <div className="register__main">
@@ -61,6 +69,9 @@ const Register = () => {
         <div className="register__top">
           <h2>Mentor</h2>
           <p>guide others into a better career</p>
+        </div>
+        <div className="register__email__error">
+          {isEmailTaken && <p>Email is taken</p>}
         </div>
         <div>
           <input
@@ -109,7 +120,7 @@ const Register = () => {
           />
           {formik.touched.password && formik.errors.password && (
             <div className="register__input__error">
-              <AiOutlineCloseCircle size={23}/>
+              <AiOutlineCloseCircle size={23} />
             </div>
           )}
         </div>
@@ -136,7 +147,10 @@ const Register = () => {
         </button>
         <div className="register__redirect">
           <p>
-            Already have an account? <a className="register__redirect__link" href="/auth/login">Login</a>{" "}
+            Already have an account?{" "}
+            <a className="register__redirect__link" href="/auth/login">
+              Login
+            </a>{" "}
           </p>
         </div>
       </form>

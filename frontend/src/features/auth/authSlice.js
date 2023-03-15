@@ -1,16 +1,52 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 
-export const login = createAsyncThunk("auth/login", async (credentials) => {
-  const response = await authService.login(credentials);
-  return response;
-});
-
+// Register user
 export const register = createAsyncThunk(
   "auth/register",
-  async (credentials) => {
-    const response = await authService.register(credentials);
-    return response;
+  async (user, thunkAPI) => {
+    try {
+      return await authService.register(user);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Login user
+export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
+  try {
+    return await authService.login(user);
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+
+export const refresh = createAsyncThunk(
+  "auth/refresh",
+  async (user, thunkAPI) => {
+    try {
+      return await authService.refresh(user);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
 );
 
@@ -33,12 +69,6 @@ const authSlice = createSlice({
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
-    },
-    setAccessToken: (state, action) => {
-      state.accessToken = action.payload;
-    },
-    clearAccessToken: (state) => {
-      state.accessToken = null;
     },
   },
   extraReducers: (builder) => {
@@ -81,10 +111,20 @@ const authSlice = createSlice({
       .addCase(logout.rejected, (state, action) => {
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(refresh.fulfilled, (state, action) => {
+        state.accessToken = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(refresh.rejected, (state, action) => {
+        state.message = action.payload;
+      })
+      .addCase(refresh.pending, (state) => {
+        state.isLoading = true;
       });
   },
 });
 
-export const { reset, setAccessToken, clearAccessToken } = authSlice.actions;
+export const { reset } = authSlice.actions;
 
 export default authSlice.reducer;

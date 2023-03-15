@@ -13,16 +13,24 @@ const login = async (userData) => {
   return response.data;
 };
 
-
 // Logout user
 const logout = async () => {
   await axios.post(API_URL + "logout");
+};
+
+const refresh = async () => {
+  const response = await axios.get(API_URL + "refresh-token", {
+    withCredentials: true,
+  });
+
+  return response.data;
 };
 
 const authService = {
   register,
   logout,
   login,
+  refresh,
 };
 
 export default authService;

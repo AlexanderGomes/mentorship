@@ -30,7 +30,7 @@ function PersistentLogin() {
   }, []);
 
   useEffect(() => {
-   dispatch(reset());
+    dispatch(reset());
   }, [isError, isSuccess, message]);
 
   return <>{isLoading ? <p>Loading....</p> : <Outlet />}</>;

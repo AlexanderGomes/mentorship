@@ -7,13 +7,13 @@ const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    res.status(400).json("Please add all fields");
+    return res.status(400).json("Please add all fields");
   }
 
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    res.status(400).json({ message: "user already exists" });
+    return res.status(400).json({ message: "user already exists" });
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -45,45 +45,49 @@ const loginUser = asyncHandler(async (req, res) => {
   // Check for user email
   const user = await User.findOne({ email });
 
-  if (user && (await bcrypt.compare(password, user.password))) {
-    const tokens = generateTokens(user);
-
-    // Create secure cookie with refresh token
-    res.cookie("jwt", tokens.refreshToken, {
-      httpOnly: true, //accessible only by web server
-      secure: false, //https
-      sameSite: "None", //cross-site cookie
-      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-    });
-
-    // Send accessToken containing username and roles
-    res.json(tokens.accessToken);
-  } else {
-    res.status(400).json("Invalid credentials");
+  if (!user) {
+    return res.status(404).json({ message: "you email was not found" });
   }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+
+  if (!passwordMatch) {
+    return res.status(400).json({ message: "passwords don't match" });
+  }
+
+  const tokens = generateTokens(user)
+
+  // Create secure cookie with refresh token
+  res.cookie("jwt", tokens.refreshToken, {
+    httpOnly: true, //accessible only by web server
+    secure: true, //https
+    sameSite: "None", //cross-site cookie
+    maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+  });
+
+  // Send accessToken containing username and roles
+  res.json(tokens.accessToken);
 });
 
 const refresh = (req, res) => {
   const cookies = req.cookies;
 
-  if (!cookies?.jwt) return res.status(401).json("Unauthorized");
+  if (!cookies?.jwt) return res.status(401).json({ message: "unauthorized" });
 
   const refreshToken = cookies.jwt;
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN, async (err, decoded) => {
-    if (err) return res.status(403).json("Forbidden");
+    if (err) return res.status(403).json({ message: "token expired" });
 
     const user = await User.findOne({
       _id: decoded.id,
     }).exec();
 
-    if (!user) return res.status(401).json("Unauthorized");
+    if (!user) return res.status(401).json({ message: "unauthorized" });
 
     const accessToken = jwt.sign(
       {
-        UserInfo: {
-          id: user._id,
-        },
+        id: user._id,
       },
       process.env.ACCESS_TOKEN,
       { expiresIn: "2m" }

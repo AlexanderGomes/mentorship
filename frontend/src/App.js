@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Register, Login, Dash, Welcome } from "./pages";
 import PersistentLogin from "./hooks/PersistentLogin";
 import Auth from "./hooks/Auth";
@@ -9,6 +10,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Welcome />} />
+
       <Route path="/auth/register" element={<Register />} />
       <Route path="/auth/login" element={<Login />} />
 

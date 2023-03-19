@@ -55,7 +55,7 @@ const loginUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "passwords don't match" });
   }
 
-  const tokens = generateTokens(user)
+  const tokens = generateTokens(user);
 
   // Create secure cookie with refresh token
   res.cookie("jwt", tokens.refreshToken, {
@@ -90,7 +90,7 @@ const refresh = (req, res) => {
         id: user._id,
       },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "2m" }
+      { expiresIn: "5m" }
     );
 
     res.json(accessToken);
@@ -114,7 +114,7 @@ const generateTokens = (user) => {
     { id: user._id.toString() },
     process.env.REFRESH_TOKEN,
     {
-      expiresIn: "1m",
+      expiresIn: "5m",
     }
   );
 

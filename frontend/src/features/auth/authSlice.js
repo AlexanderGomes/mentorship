@@ -104,6 +104,7 @@ const authSlice = createSlice({
       })
       .addCase(refresh.rejected, (state, action) => {
         state.message = action.payload;
+        state.isError = true;
       })
       .addCase(refresh.pending, (state) => {
         state.isLoading = true;

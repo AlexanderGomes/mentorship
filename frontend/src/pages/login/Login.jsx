@@ -46,8 +46,11 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess || accessToken) {
       navigate("/dash");
-      dispatch(reset());
     }
+
+    return () => {
+      dispatch(reset());
+    };
   }, [accessToken, isSuccess]);
 
   useEffect(() => {
@@ -63,7 +66,9 @@ const Login = () => {
       setIsTokenExpired(true);
     }
 
-    dispatch(reset());
+    return () => {
+      dispatch(reset());
+    };
   }, [message, isError]);
 
   return (

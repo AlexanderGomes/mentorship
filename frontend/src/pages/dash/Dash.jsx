@@ -1,28 +1,48 @@
-import React, { useState } from "react";
-import auth from "../../auth";
+import React, { useState, useEffect } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
-const Dash = () => {
-  const [photo, setPhoto] = useState(null);
-  const [document, setDocument] = useState(null);
+const VerifyButton = ({ stripePromise }) => {
+  const [stripe, setStripe] = useState(null);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await auth.uploadFiles(photo, document);
+  useEffect(() => {
+    const loadStripeObject = async () => {
+      const stripeObject = await stripePromise;
+      setStripe(stripeObject);
+    };
+
+    loadStripeObject();
+  }, [stripePromise]);
+
+  const handleStripe = async (e) => {
+    e.preventDefault();
+
+    if (!stripe) {
+      return;
+    }
+
+    const response = await axios.post(
+      "/api/stripe/create-verification-session"
+    );
+
+    window.location.href = response.data.url;
   };
 
   return (
+    <button role="link" disabled={!stripe} onClick={handleStripe}>
+      Verify
+    </button>
+  );
+};
+
+const stripePromise = loadStripe(
+  "pk_test_51KuN4jHuJoqGVoMBtHjOHAz4R7tIx5VnaIe3n5y8rtD8KOb4K4M54sISAmUzsK7N652CmDB84AR2PXtEll4BsliL00ZZArW8gT"
+);
+
+const Dash = () => {
+  return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="file"
-          onChange={(event) => setPhoto(event.target.files[0])}
-        />
-        <input
-          type="file"
-          onChange={(event) => setDocument(event.target.files[0])}
-        />
-        <button type="submit">Submit</button>
-      </form>
+      <VerifyButton stripePromise={stripePromise} />
     </div>
   );
 };

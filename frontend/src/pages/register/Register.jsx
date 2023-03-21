@@ -9,7 +9,6 @@ import "./Register.css";
 
 const Register = () => {
   const [isEmailTaken, setIsEmailTaken] = useState(false);
-  let emailErrorMsg = "user already exists";
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,6 +57,7 @@ const Register = () => {
   }, [accessToken, isSuccess]);
 
   useEffect(() => {
+    const emailErrorMsg = "user already exists";
     if (isError && message === emailErrorMsg) {
       setIsEmailTaken(true);
     }

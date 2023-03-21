@@ -51,12 +51,11 @@ const verifyIdendity = asyncHandler(async (req, res) => {
         S3Object: documentS3Object
       },
       SimilarityThreshold: 80 // Adjust as per your needs
-    };
+    }
 
     const result = await rekognition.compareFaces(params).promise();
 
-    console.log(result);
-    res.status(200);
+    res.status(200).json(result);
   } catch (error) {
     res.status(400).json(error.message);
   }

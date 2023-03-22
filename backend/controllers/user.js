@@ -114,7 +114,7 @@ const generateTokens = (user) => {
     { id: user._id.toString() },
     process.env.REFRESH_TOKEN,
     {
-      expiresIn: "5m",
+      expiresIn: "1h",
     }
   );
 

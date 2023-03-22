@@ -3,8 +3,8 @@ const stripe = require("stripe")(process.env.STRIPE__SECRET);
 const endpointSecret =
   "whsec_2cb15a2a9ffada4ff6fbf6215b532954350854fdf106d058434d2ec6df5a23b2";
 
-const verifyIdendity = async (req, res) => { 
- //pass userId to the metadata
+const verifyIdendity = async (req, res) => {
+  //pass userId to the metadata
   try {
     const verificationSession =
       await stripe.identity.verificationSessions.create({
@@ -48,6 +48,7 @@ const verifyIdendityHook = async (request, response) => {
 
   //create a user field where you can update the error message, clear it out when successful
   if (verificationSession.last_error?.code) {
+    //update user function
   }
 
   response.send();

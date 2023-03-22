@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 function PersistentLogin() {
   const [isLoading, setIsLoading] = useState(true);
-  const { accessToken, isError, message, isSuccess } = useSelector(
+  const { accessToken, isError, isSuccess } = useSelector(
     (state) => state.auth
   );
 
@@ -16,7 +16,7 @@ function PersistentLogin() {
 
     const verifyRefreshToken = async () => {
       try {
-        dispatch(refresh());
+        dispatch(refresh())
       } catch (err) {
         console.error(err);
       } finally {

@@ -13,10 +13,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add your password"],
   },
-  created: {
-    type: Date,
-    default: Date.now,
-  },
+  careerTitle: String,
+  profilePicture: String,
+  location: String,
 });
 
 module.exports = mongoose.model("User", userSchema);

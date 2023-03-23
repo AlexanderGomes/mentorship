@@ -1,7 +1,6 @@
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE__SECRET);
-const endpointSecret =
-  "whsec_2cb15a2a9ffada4ff6fbf6215b532954350854fdf106d058434d2ec6df5a23b2";
+const endpointSecret = "whsec_2cb15a2a9ffada4ff6fbf6215b532954350854fdf106d058434d2ec6df5a23b2";
 
 const verifyIdendity = async (req, res) => {
   //pass userId to the metadata

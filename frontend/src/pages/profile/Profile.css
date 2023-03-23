@@ -1,7 +1,9 @@
 .profile__main__div {
   display: flex;
+  align-items: center;
   justify-content: center;
   margin-top: 20px;
+  flex-direction: column;
 }
 
 .profile__user__info {
@@ -10,6 +12,7 @@
   width: 600px;
   gap: 170px;
   border: 1px solid rgba(128, 128, 128, 0.405);
+  border-radius: 12px;
 }
 
 .contact__btns {
@@ -19,17 +22,32 @@
   margin-top: 10px;
 }
 
-.contact__btns a {
+.contact__email {
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   color: white;
-  background-color: rgb(48, 48, 178);
+  background-color: rgb(0, 149, 246);
   width: 100px;
   height: 20px;
   border-radius: 12px;
   border-color: transparent;
+  font-family: "Roboto", sans-serif;
+}
+
+.contact__call {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: rgb(0, 149, 246);
+  width: 100px;
+  height: 20px;
+  border-radius: 12px;
+  border-color: transparent;
+  font-family: "Roboto", sans-serif;
+  border: 1px solid rgb(0, 149, 246);
 }
 
 .user__projects__posts {
@@ -41,6 +59,8 @@
 
 .user__career__title {
   margin-top: 10px;
+  font-weight: 900;
+  font-family: "Roboto", sans-serif;
 }
 
 .profile__img {
@@ -55,12 +75,14 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  font-family: "Roboto", sans-serif;
 }
 
 .posts {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  font-family: "Roboto", sans-serif;
 }
 
 .user__skills {
@@ -68,7 +90,7 @@
   gap: 10px;
   align-items: center;
   flex-direction: column;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .skills {
@@ -77,16 +99,130 @@
   gap: 10px;
 }
 
+.profile__img__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  cursor: pointer;
+  left: 570px;
+  top: -75px;
+
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(0, 149, 246);
+  border-radius: 50%;
+}
+
+.user__top__main {
+  position: relative;
+  top: -30px;
+}
+
+.user__name {
+  font-size: 20px;
+  font-weight: 900;
+  font-family: "Playfair Display", serif;
+}
+
+.location__main {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.user__skills h2 {
+  font-size: 20px;
+  font-family: "Playfair Display", serif;
+}
+
+.skills__span {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+}
+
+.skills__more {
+  color: red;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+}
+
+.skills p {
+  font-family: "Playfair Display", serif;
+}
+
+.profile__bottom__div {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bottom__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 620px;
+  border: 1px solid rgba(128, 128, 128, 0.405);
+  border-radius: 12px;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 10px;
+}
+
+.bottom h2 {
+  margin-bottom: 10px;
+}
+
+.seeMore__bottom {
+  margin-top: 10px;
+  color: red;
+}
+
+.bottom h2 {
+  font-weight: 600;
+  font-family: "Roboto", sans-serif;
+}
+
 @media screen and (max-width: 620px) {
   .profile__user__info {
     display: flex;
-    width: 300px;
+    width: 97%;
     flex-direction: column;
     gap: 20px;
   }
 
   .user__skills {
     display: flex;
+    margin-top: -30px;
+  }
+
+  .profile__img__icon {
+    left: 90%;
+    top: -75px;
+  }
+
+  .bottom__main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: 1px solid rgba(128, 128, 128, 0.405);
+    border-radius: 12px;
+  }
+
+  .profile__bottom__div {
+    display: flex;
+    justify-content: center;
     align-items: center;
   }
+}
+
+@media screen and (max-width: 390px) {
 }

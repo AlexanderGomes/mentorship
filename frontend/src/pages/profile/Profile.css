@@ -136,6 +136,7 @@
 .user__skills h2 {
   font-size: 20px;
   font-family: "Playfair Display", serif;
+  color: rgb(0, 149, 246);
 }
 
 .skills__span {
@@ -144,7 +145,7 @@
 }
 
 .skills__more {
-  color: red;
+  color: rgb(235, 72, 72);
   font-family: "Nunito Sans", sans-serif;
   cursor: pointer;
 }
@@ -178,11 +179,12 @@
 
 .bottom h2 {
   margin-bottom: 10px;
+  color: rgb(0, 149, 246);
 }
 
 .seeMore__bottom {
   margin-top: 10px;
-  color: red;
+  color: rgb(235, 72, 72);
 }
 
 .bottom h2 {
@@ -196,6 +198,8 @@
     width: 97%;
     flex-direction: column;
     gap: 20px;
+    border-radius: 0;
+    padding-left: 20px;
   }
 
   .user__skills {
@@ -212,7 +216,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 105%;
     border: 1px solid rgba(128, 128, 128, 0.405);
     border-radius: 12px;
   }
@@ -222,7 +226,15 @@
     justify-content: center;
     align-items: center;
   }
+
+  .bottom__main  {
+    border-radius: 0;
+  }
 }
 
 @media screen and (max-width: 390px) {
+  .profile__img__icon {
+    left: 90%;
+  }
+
 }

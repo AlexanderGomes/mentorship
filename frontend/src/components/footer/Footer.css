@@ -1,0 +1,29 @@
+.footer__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: auto;
+  
+  padding: 20px;
+  gap: 20px;
+}
+
+.footer__logo {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.footer__logo__span {
+  color: rgb(0, 149, 246);
+}
+
+
+.footer__bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+}

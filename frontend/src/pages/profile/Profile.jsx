@@ -1,10 +1,18 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import "./Profile.css";
 import pictures from "../../assets/profile.PNG";
 import { AiFillEdit } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 
 const Profile = () => {
+  const { userId } = useParams();
+  const { id } = useSelector((state) => state.auth);
+
+  const isCurrentUser = userId === id;
+
   return (
     <div className="profile__main__div">
       <div className="profile__user__info">
@@ -54,7 +62,7 @@ const UserInfo = () => {
     <div>
       <img className="profile__img" src={pictures} alt="profile picture" />
       <div className="profile__img__icon">
-        <AiFillEdit className="icon" color={"rgb(0, 149, 246)"} />
+        <AiFillEdit className="icon" />
       </div>
       <div className="user__top__main">
         <div className="user__top__info">

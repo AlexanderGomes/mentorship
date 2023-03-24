@@ -18,7 +18,7 @@ function App() {
         <Route element={<PersistentLogin />}>
           <Route element={<Auth />}>
             <Route path="/dash" element={<Dash />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:userId" element={<Profile />} />
           </Route>
         </Route>
       </Route>

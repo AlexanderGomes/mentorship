@@ -7,8 +7,8 @@ const cookieParser = require("cookie-parser");
 const upload = multer();
 
 //routes folders
+const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
-const authRoutes = require("./routes/verification");
 const stripeRoutes = require("./routes/stripe");
 
 //utils
@@ -27,9 +27,9 @@ app.use((req, res, next) => {
   }
 });
 
-app.use("/api/user", userRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api/user", authRoutes);
 app.use("/api/stripe", stripeRoutes);
+app.use("/api/functions", userRoutes);
 
 app.listen(port, async () => {
   await connectDB();

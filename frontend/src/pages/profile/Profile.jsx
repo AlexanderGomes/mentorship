@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import { useSelector } from "react-redux";
-
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./Profile.css";
 import pictures from "../../assets/profile.PNG";
 import { AiFillEdit } from "react-icons/ai";
@@ -9,13 +10,19 @@ import { GoLocation } from "react-icons/go";
 
 const Profile = () => {
   const { userId } = useParams();
-  const { id } = useSelector((state) => state.auth);
+  const { id, accessToken } = useSelector((state) => state.auth);
+  const axiosPrivate = useAxiosPrivate();
 
   const isCurrentUser = userId === id;
+
+  const call = async () => {
+    axiosPrivate.get("/api/user/protected");
+  };
 
   return (
     <div className="profile__main__div">
       <div className="profile__user__info">
+        <button onClick={call}>Call protected</button>
         <UserInfo />
         <Skills />
       </div>

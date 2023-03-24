@@ -3,6 +3,8 @@ const multer = require("multer");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 const app = express();
+const cors = require("cors");
+const corsOptions = require('./config/corsOption')
 const cookieParser = require("cookie-parser");
 const upload = multer();
 
@@ -18,6 +20,8 @@ const connectDB = require("./utils/connectDB");
 app.use(cookieParser());
 app.use(upload.any());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors(corsOptions));
+
 
 app.use((req, res, next) => {
   if (req.originalUrl === "/api/stripe/webhook") {

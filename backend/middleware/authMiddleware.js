@@ -1,37 +1,20 @@
-const jwt = require('jsonwebtoken')
-const asyncHandler = require('express-async-handler')
-const User = require('../models/user')
-
+const jwt = require("jsonwebtoken");
+const asyncHandler = require("express-async-handler");
 
 const protect = asyncHandler(async (req, res, next) => {
-    let token
-  
-    if (
-      req.headers.Authorization &&
-      req.headers.Authorization.startsWith('Bearer')
-    ) {
-      try {
-        // Get token from header
-        token = req.headers.Authorization.split(' ')[1]
-  
-        // Verify token
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN)
-  
-        // Get user from the token
-        req.user = await User.findById(decoded.id).select('-password')
-  
-        next()
-      } catch (error) {
-        console.log(error)
-        res.status(401)
-        throw new Error('Not authorized')
-      }
-    }
-  
-    if (!token) {
-      res.status(401)
-      throw new Error('Not authorized, no token')
-    }
-  })
-  
-  module.exports = { protect }
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+
+  if (!authHeader?.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
+    if (err) return res.status(403).json({ message: "Forbidden" });
+    req.user = decoded.id;
+    next();
+  });
+});
+
+module.exports = { protect };

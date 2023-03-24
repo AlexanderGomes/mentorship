@@ -2,8 +2,10 @@ import jwt_decode from "jwt-decode";
 
 function getUserIdFromAccessToken(accessToken) {
   try {
-    const decodedToken = jwt_decode(accessToken);
-    return decodedToken.id;
+    if (accessToken) {
+      const decodedToken = jwt_decode(accessToken);
+      return decodedToken.id;
+    }
   } catch (error) {
     console.error(error);
     return null;

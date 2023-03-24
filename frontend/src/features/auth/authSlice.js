@@ -60,6 +60,9 @@ const authSlice = createSlice({
     setDecodedId: (state, action) => {
       state.id = action.payload;
     },
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -116,6 +119,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { reset, setDecodedId } = authSlice.actions;
+export const { reset, setDecodedId, setAccessToken } = authSlice.actions;
 
 export default authSlice.reducer;

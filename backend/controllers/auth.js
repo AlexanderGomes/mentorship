@@ -90,7 +90,7 @@ const refresh = (req, res) => {
         id: user._id,
       },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "5m" }
+      { expiresIn: "1m" }
     );
 
     res.json(accessToken);
@@ -104,17 +104,17 @@ const testRoute = async (req, res) => {
 const generateTokens = (user) => {
   const accessToken = jwt.sign(
     {
-      id: user._id.toString(),
+      id: user._id,
     },
     process.env.ACCESS_TOKEN,
     { expiresIn: "1m" }
   );
 
   const refreshToken = jwt.sign(
-    { id: user._id.toString() },
+    { id: user._id },
     process.env.REFRESH_TOKEN,
     {
-      expiresIn: "1h",
+      expiresIn: "1m",
     }
   );
 

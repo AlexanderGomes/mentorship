@@ -1,7 +1,7 @@
 import { axiosPrivate } from "../Api/axios";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { refresh, logout } from "../features/auth/authSlice";
+import { refresh, logout, setErrorMsg } from "../features/auth/authSlice";
 
 const useAxiosPrivate = () => {
   const { accessToken } = useSelector((state) => state.auth);
@@ -33,6 +33,7 @@ const useAxiosPrivate = () => {
             })
             .catch((error) => {
               if (error?.response?.status === 403) {
+                dispatch(setErrorMsg("token expired"));
                 dispatch(logout());
               }
             });
@@ -45,7 +46,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     };
-  }, [accessToken, refresh]);
+  }, [accessToken, dispatch]);
 
   return axiosPrivate;
 };

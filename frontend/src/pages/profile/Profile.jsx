@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { Loading } from "../../components";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProfileData } from "../../features/profile/profileSlice";
@@ -9,8 +10,11 @@ import pictures from "../../assets/profile.PNG";
 import "./Profile.css";
 
 const Profile = () => {
-  const { userId } = useParams();
+  const [displayName, setDisplayName] = useState(null);
+  const [error, setError] = useState(null);
   const { id, accessToken } = useSelector((state) => state.auth);
+
+  const { userId } = useParams();
   const { data } = useSelector((state) => state.profile);
 
   const dispatch = useDispatch();
@@ -18,71 +22,91 @@ const Profile = () => {
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-    if (id) {
-      const getProfile = async () => {
+    const getProfile = async () => {
+      try {
         const response = await axiosPrivate.get(
-          `/api/functions/get/profile/${id}`
+          `/api/functions/get/profile/${userId}`
         );
         dispatch(setProfileData(response.data));
-      };
+      } catch (error) {
+        setError(error.response.data.message);
+      }
+    };
 
+    if (userId) {
       getProfile();
     }
-  }, [id, dispatch]);
+  }, [userId]);
+
+  const refactorName = (data) => {
+    const fullName = data.name;
+    const [firstName, secondName] = fullName.split(" ");
+
+    if (!secondName) {
+      setDisplayName(firstName);
+    } else {
+      const display = `${firstName} ${secondName.slice(0, 1)}.`;
+      setDisplayName(display);
+    }
+  };
 
   useEffect(() => {
-    const fullName = data?.name;
-    const [firstName, secondName] = fullName?.split(" ");
-    console.log(secondName);
-    const display = `${firstName} ${secondName?.slice(0, 1)}.`;
-    console.log(display);
+    if (data) {
+      refactorName(data);
+    }
   }, [data]);
 
   return (
-    <div className="profile__main__div">
-      <div className="profile__user__info">
-        <UserInfo data={data} />
-        <Skills />
-      </div>
-      <div className="profile__bottom__div">
-        <div className="bottom__main">
-          <div className="bottom">
-            <h2>About me</h2>
-            <div className="bottom__conten__left">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-                mollitia obcaecati, aspernatur maiores, tempore dolor alias
-                voluptate eos sunt adipisci illum soluta assumenda autem
-                consequuntur amet reprehenderit ratione. Ipsum, iusto.
-              </p>
+    <>
+      {!data ? (
+        <Loading error={error} />
+      ) : (
+        <div className="profile__main__div">
+          <div className="profile__user__info">
+            <UserInfo data={data} displayName={displayName} />
+            <Skills />
+          </div>
+          <div className="profile__bottom__div">
+            <div className="bottom__main">
+              <div className="bottom">
+                <h2>About me</h2>
+                <div className="bottom__conten__left">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Vitae mollitia obcaecati, aspernatur maiores, tempore dolor
+                    alias voluptate eos sunt adipisci illum soluta assumenda
+                    autem consequuntur amet reprehenderit ratione. Ipsum, iusto.
+                  </p>
+                </div>
+                <p className="seeMore__bottom">See more...</p>
+              </div>
             </div>
-            <p className="seeMore__bottom">See more...</p>
+            <div className="bottom__main">
+              <div className="bottom">
+                <h2>Projects</h2>
+                <div className="bottom__conten__right">
+                  <p>Add some of yout best work</p>
+                </div>
+                <p className="seeMore__bottom">See more...</p>
+              </div>
+            </div>
+            <div className="bottom__main">
+              <div className="bottom">
+                <h2>Work History / Internship / Freelance Work </h2>
+                <div className="bottom__conten__right">
+                  <p>Any work expirience is great to share</p>
+                </div>
+                <p className="seeMore__bottom">See more...</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="bottom__main">
-          <div className="bottom">
-            <h2>Projects</h2>
-            <div className="bottom__conten__right">
-              <p>Add some of yout best work</p>
-            </div>
-            <p className="seeMore__bottom">See more...</p>
-          </div>
-        </div>
-        <div className="bottom__main">
-          <div className="bottom">
-            <h2>Work History / Internship / Freelance Work </h2>
-            <div className="bottom__conten__right">
-              <p>Any work expirience is great to share</p>
-            </div>
-            <p className="seeMore__bottom">See more...</p>
-          </div>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
-const UserInfo = ({ data }) => {
+const UserInfo = ({ data, displayName }) => {
   return (
     <div>
       <img className="profile__img" src={pictures} alt="profile picture" />
@@ -91,7 +115,7 @@ const UserInfo = ({ data }) => {
       </div>
       <div className="user__top__main">
         <div className="user__top__info">
-          <p className="user__name">{data?.name}</p>
+          <p className="user__name">{displayName}</p>
           <div className="location__main">
             <GoLocation color={"green"} />{" "}
             <p className="user__location">

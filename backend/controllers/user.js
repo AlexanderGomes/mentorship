@@ -3,10 +3,10 @@ const asyncHandler = require("express-async-handler");
 
 const getUserProfileData = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select("-password -_id");
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({ message: `${error.message}` });
+    res.status(400).json({ message: 'user not found' });
   }
 });
 
@@ -23,6 +23,7 @@ const upadteUserProfile = asyncHandler(async (req, res) => {
     res.status(400).json({ message: `${error.message}` });
   }
 });
+
 
 module.exports = {
   upadteUserProfile,

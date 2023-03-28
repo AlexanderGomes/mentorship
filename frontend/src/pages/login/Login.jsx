@@ -8,13 +8,10 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const Login = () => {
   const [isWrongEmail, setIsWrongEmail] = useState(false);
-  let wrongEmailMsg = "you email was not found";
 
   const [isWrongPassWord, setIsWrongPassWord] = useState(false);
-  let wrongPassword = "passwords don't match";
 
   const [isTokenExpired, setIsTokenExpired] = useState(false);
-  let tokenExpired = "token expired";
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,33 +40,29 @@ const Login = () => {
     },
   });
 
+  
   useEffect(() => {
     if (isSuccess || accessToken) {
-      navigate("/dash");
+       navigate("/dash");
     }
 
-    return () => {
-      dispatch(reset());
-    };
-  }, [accessToken, isSuccess]);
-
-  useEffect(() => {
-    if (isError && message === wrongEmailMsg) {
+    if (isError && message === "you email was not found") {
       setIsWrongEmail(true);
     }
 
-    if (isError && message === wrongPassword) {
+    if (isError && message === "passwords don't match") {
       setIsWrongPassWord(true);
     }
 
-    if (message === tokenExpired) {
+    if (message === "token expired") {
       setIsTokenExpired(true);
     }
 
     return () => {
       dispatch(reset());
     };
-  }, [message, isError]);
+  }, [accessToken, isSuccess, message, isError]);
+
 
   return (
     <div className="register__main">

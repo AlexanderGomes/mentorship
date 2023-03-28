@@ -32,16 +32,7 @@
   width: 100px;
   height: 20px;
   border-radius: 12px;
-  border-color: transparent;
   font-family: "Roboto", sans-serif;
-}
-
-.contact__email:hover {
-  background-color: white;
-  color: rgb(0, 149, 246);
-  border: 1px solid rgb(0, 149, 246);
-  transition: ease-in-out 0.3s;
-
 }
 
 .contact__call {
@@ -75,6 +66,7 @@
   margin-top: 10px;
   font-weight: 900;
   font-family: "Roboto", sans-serif;
+  text-transform: capitalize;
 }
 
 .profile__img {
@@ -134,7 +126,6 @@
   background-color: rgb(0, 149, 246);
   color: white;
   transition: ease-in-out 0.3s;
-
 }
 
 .user__top__main {
@@ -146,6 +137,7 @@
   font-size: 20px;
   font-weight: 900;
   font-family: "Playfair Display", serif;
+  text-transform: capitalize;
 }
 
 .location__main {
@@ -212,6 +204,11 @@
 .bottom h2 {
   font-weight: 600;
   font-family: "Roboto", sans-serif;
+}
+
+.user__location {
+  text-transform: capitalize;
+  font-family: 700;
 }
 
 @media screen and (max-width: 620px) {

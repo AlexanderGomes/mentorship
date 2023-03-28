@@ -55,12 +55,7 @@
   color: white;
 }
 
-.icon__nav:hover {
-  background-color: white;
-  color: rgb(0, 149, 246);
-  border: 1px solid rgb(0, 149, 246);
-  transition: ease-in-out 0.3s;
-}
+
 
 .ham__icons {
   position: absolute;

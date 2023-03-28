@@ -1,29 +1,47 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import "./Profile.css";
-import pictures from "../../assets/profile.PNG";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setProfileData } from "../../features/profile/profileSlice";
 import { AiFillEdit } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
+import pictures from "../../assets/profile.PNG";
+import "./Profile.css";
 
 const Profile = () => {
   const { userId } = useParams();
   const { id, accessToken } = useSelector((state) => state.auth);
+  const { data } = useSelector((state) => state.profile);
+
+  const dispatch = useDispatch();
+
   const axiosPrivate = useAxiosPrivate();
 
-  const isCurrentUser = userId === id;
+  useEffect(() => {
+    if (id) {
+      const getProfile = async () => {
+        const response = await axiosPrivate.get(
+          `/api/functions/get/profile/${id}`
+        );
+        dispatch(setProfileData(response.data));
+      };
 
-  const call = async () => {
-    axiosPrivate.get("/api/user/protected");
-  };
+      getProfile();
+    }
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    const fullName = data?.name;
+    const [firstName, secondName] = fullName?.split(" ");
+    console.log(secondName);
+    const display = `${firstName} ${secondName?.slice(0, 1)}.`;
+    console.log(display);
+  }, [data]);
 
   return (
     <div className="profile__main__div">
       <div className="profile__user__info">
-        <button onClick={call}>Call protected</button>
-        <UserInfo />
+        <UserInfo data={data} />
         <Skills />
       </div>
       <div className="profile__bottom__div">
@@ -64,7 +82,7 @@ const Profile = () => {
   );
 };
 
-const UserInfo = () => {
+const UserInfo = ({ data }) => {
   return (
     <div>
       <img className="profile__img" src={pictures} alt="profile picture" />
@@ -73,15 +91,19 @@ const UserInfo = () => {
       </div>
       <div className="user__top__main">
         <div className="user__top__info">
-          <p className="user__name">Alexsander H.</p>
+          <p className="user__name">{data?.name}</p>
           <div className="location__main">
             <GoLocation color={"green"} />{" "}
-            <p className="user__location">Richmond, CA</p>
+            <p className="user__location">
+              {data?.location ? data?.location : "add location"}
+            </p>
           </div>
         </div>
 
         <div className="middle__info">
-          <p className="user__career__title">Software engineer, Backend</p>
+          <p className="user__career__title">
+            {data?.title ? data?.title : "add career title"}
+          </p>
 
           <div className="contact__btns">
             <a href="" className="contact__email">

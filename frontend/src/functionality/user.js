@@ -12,6 +12,8 @@ function getUserIdFromAccessToken(accessToken) {
   }
 }
 
+
+
 const user = {
   getUserIdFromAccessToken,
 };

@@ -14,7 +14,7 @@ function PersistentLogin() {
   useEffect(() => {
     const id = user.getUserIdFromAccessToken(accessToken);
     dispatch(setDecodedId(id));
-  }, [accessToken]);
+  }, [accessToken])
   
 
   useEffect(() => {

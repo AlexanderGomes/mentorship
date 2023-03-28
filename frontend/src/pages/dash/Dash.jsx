@@ -35,9 +35,7 @@ const VerifyButton = ({ stripePromise }) => {
   );
 };
 
-const stripePromise = loadStripe(
-  "pk_test_51KuN4jHuJoqGVoMBtHjOHAz4R7tIx5VnaIe3n5y8rtD8KOb4K4M54sISAmUzsK7N652CmDB84AR2PXtEll4BsliL00ZZArW8gT"
-);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_IDENTITY);
 
 const Dash = () => {
   return (

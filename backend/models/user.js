@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
   careerTitle: String,
   profilePicture: String,
   location: String,
+  phoneNumber: String,
+  contactNumber: String,
+  contactEmail: String,
+  aboutMe: String,
 });
 
 module.exports = mongoose.model("User", userSchema);

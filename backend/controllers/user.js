@@ -1,19 +1,30 @@
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 
-const upadteUserProfile = asyncHandler(async (req, res) => {
-  const { updatedFields } = req.body;
-
+const getUserProfileData = asyncHandler(async (req, res) => {
   try {
-    const user = User.findById(req.params.userId);
-
-    console.log(updatedFields);
-    
+    const user = await User.findById(req.params.id);
+    res.status(200).json(user);
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(400).json({ message: `${error.message}` });
+  }
+});
+
+const upadteUserProfile = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(400).json({ message: `${error.message}` });
   }
 });
 
 module.exports = {
   upadteUserProfile,
+  getUserProfileData,
 };

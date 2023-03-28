@@ -84,7 +84,7 @@ const Register = () => {
             type="text"
             id="name"
             name="name"
-            placeholder="Name"
+            placeholder="Full Name"
             onBlur={formik.handleBlur}
             value={formik.values.name}
             onChange={formik.handleChange}

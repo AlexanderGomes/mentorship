@@ -90,7 +90,7 @@ const refresh = (req, res) => {
         id: user._id,
       },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "10s" }
+      { expiresIn: "20m" }
     );
 
     res.json(accessToken);
@@ -107,16 +107,12 @@ const generateTokens = (user) => {
       id: user._id,
     },
     process.env.ACCESS_TOKEN,
-    { expiresIn: "10s" }
+    { expiresIn: "20m" }
   );
 
-  const refreshToken = jwt.sign(
-    { id: user._id },
-    process.env.REFRESH_TOKEN,
-    {
-      expiresIn: "1m",
-    }
-  );
+  const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN, {
+    expiresIn: "2h",
+  });
 
   return { accessToken, refreshToken };
 };

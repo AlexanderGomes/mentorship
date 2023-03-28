@@ -35,6 +35,7 @@ app.use("/api/user", authRoutes);
 app.use("/api/stripe", stripeRoutes);
 app.use("/api/functions", userRoutes);
 
+
 app.listen(port, async () => {
   await connectDB();
   console.log("db connected");

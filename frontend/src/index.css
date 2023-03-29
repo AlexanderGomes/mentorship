@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Nunito+Sans:wght@200&family=Playfair+Display:wght@700;600&family=Roboto:wght@300&display=swap");
+
 html,
 body,
 div,
@@ -124,7 +126,5 @@ table {
 }
 
 body {
-  overflow-x: hidden
+  overflow-x: hidden;
 }
-
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Nunito+Sans:wght@200&family=Playfair+Display:wght@700;600&family=Roboto:wght@300&display=swap");

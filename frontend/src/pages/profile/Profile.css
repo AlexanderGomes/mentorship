@@ -10,7 +10,7 @@
   display: flex;
   padding: 10px;
   width: 600px;
-  gap: 170px;
+  gap: 140px;
   border: 1px solid rgba(128, 128, 128, 0.405);
   border-radius: 12px;
 }
@@ -211,60 +211,29 @@
   font-family: 700;
 }
 
-.loading-container {
+.edit__profile__pic {
+  position: absolute;
+  margin-left: 65px;
+  margin-top: 40px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.loading-logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-weight: bold;
-}
-
-.loading-logo p {
-  font-size: 3rem;
-  font-weight: 700;
-}
-
-.loading-logo span {
-  color: rgb(0, 149, 246);
-}
-
-.loading {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgb(0, 149, 246);
   border-radius: 50%;
-  border: 3px solid #ccc;
-  border-top-color: rgb(0, 149, 246);
-  animation: spin 1s ease-in-out infinite;
+  color: rgb(0, 149, 246);
+  cursor: pointer;
+transition: ease-in-out 0.3s;
 }
 
-.error {
-  font-size: 30px;
-  font-weight: 700;
-  color: red;
+.edit__profile__pic:hover {
+  background-color: rgb(0, 149, 246);
+  color: white;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.file__picture {
+  display: none;
 }
 
 @media screen and (max-width: 620px) {

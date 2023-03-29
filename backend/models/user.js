@@ -13,12 +13,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add your password"],
   },
+  contactNumber: String,
+  contactEmail: String,
+
   careerTitle: String,
   profilePicture: String,
   location: String,
-  phoneNumber: String,
-  contactNumber: String,
-  contactEmail: String,
   aboutMe: String,
 });
 

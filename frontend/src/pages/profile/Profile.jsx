@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { Loading } from "../../components";
+import { Loading, ProfilePopUp } from "../../components";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProfileData } from "../../features/profile/profileSlice";
 import { AiFillEdit } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
-import pictures from "../../assets/profile.PNG";
+import defaultPicture from "../../assets/default.png";
 import "./Profile.css";
 
 const Profile = () => {
   const [displayName, setDisplayName] = useState(null);
+  const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
+  const [isEditActive, setIsEditActive] = useState(false);
   const { id, accessToken } = useSelector((state) => state.auth);
 
   const { userId } = useParams();
@@ -56,61 +58,99 @@ const Profile = () => {
     }
   }, [data]);
 
+
+  const toggleMenu = () => {
+    setIsEditActive(!isEditActive);
+  };
+
+  
   return (
     <>
       {!data ? (
         <Loading error={error} />
       ) : (
-        <div className="profile__main__div">
-          <div className="profile__user__info">
-            <UserInfo data={data} displayName={displayName} />
-            <Skills />
+        <>
+          {isEditActive && (
+            <ProfilePopUp
+              toggleMenu={toggleMenu}
+              setIsEditActive={setIsEditActive}
+            />
+          )}
+          <div className="profile__main__div">
+            <div className="profile__user__info">
+              <UserInfo
+                data={data}
+                displayName={displayName}
+                toggleMenu={toggleMenu}
+                setFile={setFile}
+              />
+              <Skills />
+            </div>
+            <div className="profile__bottom__div">
+              <div className="bottom__main">
+                <div className="bottom">
+                  <h2>Projects</h2>
+                  <div className="bottom__conten__right">
+                    <p>Add some of yout best work</p>
+                  </div>
+                  <p className="seeMore__bottom">See more...</p>
+                </div>
+              </div>
+
+              <div className="bottom__main">
+                <div className="bottom">
+                  <h2>Work History / Internship / Freelance Work </h2>
+                  <div className="bottom__conten__right">
+                    <p>Any work is great to share</p>
+                  </div>
+                  <p className="seeMore__bottom">See more...</p>
+                </div>
+              </div>
+              <div className="bottom__main">
+                <div className="bottom">
+                  <h2>About me</h2>
+                  <div className="bottom__conten__left">
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Vitae mollitia obcaecati, aspernatur maiores, tempore
+                      dolor alias voluptate eos sunt adipisci illum soluta
+                      assumenda autem consequuntur amet reprehenderit ratione.
+                      Ipsum, iusto.
+                    </p>
+                  </div>
+                  <p className="seeMore__bottom">See more...</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="profile__bottom__div">
-            <div className="bottom__main">
-              <div className="bottom">
-                <h2>About me</h2>
-                <div className="bottom__conten__left">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Vitae mollitia obcaecati, aspernatur maiores, tempore dolor
-                    alias voluptate eos sunt adipisci illum soluta assumenda
-                    autem consequuntur amet reprehenderit ratione. Ipsum, iusto.
-                  </p>
-                </div>
-                <p className="seeMore__bottom">See more...</p>
-              </div>
-            </div>
-            <div className="bottom__main">
-              <div className="bottom">
-                <h2>Projects</h2>
-                <div className="bottom__conten__right">
-                  <p>Add some of yout best work</p>
-                </div>
-                <p className="seeMore__bottom">See more...</p>
-              </div>
-            </div>
-            <div className="bottom__main">
-              <div className="bottom">
-                <h2>Work History / Internship / Freelance Work </h2>
-                <div className="bottom__conten__right">
-                  <p>Any work expirience is great to share</p>
-                </div>
-                <p className="seeMore__bottom">See more...</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        </>
       )}
     </>
   );
 };
 
-const UserInfo = ({ data, displayName }) => {
+const UserInfo = ({ data, displayName, toggleMenu, setFile }) => {
   return (
     <div>
-      <img className="profile__img" src={pictures} alt="profile picture" />
-      <div className="profile__img__icon">
+      <div>
+        <label for="file" className="edit__profile__pic">
+          <AiFillEdit />
+        </label>
+        <input
+          className="file__picture"
+          type="file"
+          id="file"
+          accept=".png,.jpeg,.jpg,Screenshot"
+          onChange={(e) => setFile(e.target.files[0])}
+        />
+      </div>
+      <img
+        className="profile__img"
+        src={data.profilePicture ? data.profilePicture : defaultPicture}
+        alt="profile picture"
+      />
+
+      <div className="profile__img__icon" onClick={toggleMenu}>
         <AiFillEdit className="icon" />
       </div>
       <div className="user__top__main">
@@ -126,14 +166,18 @@ const UserInfo = ({ data, displayName }) => {
 
         <div className="middle__info">
           <p className="user__career__title">
-            {data?.title ? data?.title : "add career title"}
+            {data?.careerTitle ? data?.careerTitle : "add career title"}
           </p>
 
           <div className="contact__btns">
-            <a href="" className="contact__email">
+            <a
+              href={`mailto:${data.contactEmail}`}
+              target="_blank"
+              className="contact__email"
+            >
               Email
             </a>
-            <a href="" className="contact__call">
+            <a href={`tel:${data.contactNumber}`} className="contact__call">
               Call
             </a>
           </div>

@@ -6,24 +6,24 @@ const getUserProfileData = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id).select("-password -_id");
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({ message: 'user not found' });
+    res.status(400).json({ message: "user not found" });
   }
 });
 
 const upadteUserProfile = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.body.data;
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $set: req.body },
+      { $set: req.body.data },
       { new: true }
-    );
+    ).select("-password -_id");
     res.status(200).json(updatedUser);
   } catch (error) {
     res.status(400).json({ message: `${error.message}` });
   }
 });
-
 
 module.exports = {
   upadteUserProfile,

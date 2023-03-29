@@ -1,0 +1,31 @@
+.edit__placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  flex-direction: column;
+}
+
+.edit__placeholder img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.input__pic {
+  display: none;
+}
+
+.choose__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  height: 30px;
+  width: 130px;
+  background-color: rgb(0, 149, 246);
+  border-radius: 12px;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+}

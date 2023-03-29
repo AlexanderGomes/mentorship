@@ -1,5 +1,5 @@
 import React from "react";
-import './Loading.css'
+import "./Loading.css";
 
 const Loading = ({ error }) => {
   return (
@@ -15,7 +15,7 @@ const Loading = ({ error }) => {
               Career<span>Connect</span>
             </p>
           </div>
-          <div className="loading"></div>
+          <div className="loading">Loading...</div>
         </div>
       )}
     </>

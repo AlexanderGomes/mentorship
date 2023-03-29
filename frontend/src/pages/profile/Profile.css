@@ -224,7 +224,7 @@
   border-radius: 50%;
   color: rgb(0, 149, 246);
   cursor: pointer;
-transition: ease-in-out 0.3s;
+  transition: ease-in-out 0.3s;
 }
 
 .edit__profile__pic:hover {

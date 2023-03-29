@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { Loading, ProfilePopUp } from "../../components";
+import { Loading, ProfilePopUp, Profilepic } from "../../components";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProfileData } from "../../features/profile/profileSlice";
@@ -11,9 +11,9 @@ import "./Profile.css";
 
 const Profile = () => {
   const [displayName, setDisplayName] = useState(null);
-  const [file, setFile] = useState(null);
-  const [error, setError] = useState(null);
   const [isEditActive, setIsEditActive] = useState(false);
+  const [editProfilePic, setEditProfilePic] = useState(null);
+  const [error, setError] = useState(null);
   const { id, accessToken } = useSelector((state) => state.auth);
 
   const { userId } = useParams();
@@ -58,31 +58,30 @@ const Profile = () => {
     }
   }, [data]);
 
-
   const toggleMenu = () => {
     setIsEditActive(!isEditActive);
   };
 
-  
   return (
     <>
       {!data ? (
         <Loading error={error} />
       ) : (
         <>
-          {isEditActive && (
-            <ProfilePopUp
-              toggleMenu={toggleMenu}
-              setIsEditActive={setIsEditActive}
-            />
-          )}
+          <PopUps
+            isEditActive={isEditActive}
+            toggleMenu={toggleMenu}
+            setIsEditActive={setIsEditActive}
+            editProfilePic={editProfilePic}
+            setEditProfilePic={setEditProfilePic}
+          />
           <div className="profile__main__div">
             <div className="profile__user__info">
               <UserInfo
                 data={data}
                 displayName={displayName}
                 toggleMenu={toggleMenu}
-                setFile={setFile}
+                setEditProfilePic={setEditProfilePic}
               />
               <Skills />
             </div>
@@ -129,24 +128,18 @@ const Profile = () => {
   );
 };
 
-const UserInfo = ({ data, displayName, toggleMenu, setFile }) => {
+const UserInfo = ({ data, displayName, toggleMenu, setEditProfilePic }) => {
   return (
     <div>
-      <div>
-        <label for="file" className="edit__profile__pic">
-          <AiFillEdit />
-        </label>
-        <input
-          className="file__picture"
-          type="file"
-          id="file"
-          accept=".png,.jpeg,.jpg,Screenshot"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
+      <div
+        className="edit__profile__pic"
+        onClick={() => setEditProfilePic(!false)}
+      >
+        <AiFillEdit />
       </div>
       <img
         className="profile__img"
-        src={data.profilePicture ? data.profilePicture : defaultPicture}
+        src={data?.profilePicture ? data?.profilePicture : defaultPicture}
         alt="profile picture"
       />
 
@@ -171,13 +164,13 @@ const UserInfo = ({ data, displayName, toggleMenu, setFile }) => {
 
           <div className="contact__btns">
             <a
-              href={`mailto:${data.contactEmail}`}
+              href={`mailto:${data?.contactEmail}`}
               target="_blank"
               className="contact__email"
             >
               Email
             </a>
-            <a href={`tel:${data.contactNumber}`} className="contact__call">
+            <a href={`tel:${data?.contactNumber}`} className="contact__call">
               Call
             </a>
           </div>
@@ -221,6 +214,27 @@ const Skills = () => {
         <p className="skills__more">See more...</p>
       </div>
     </div>
+  );
+};
+
+const PopUps = ({
+  isEditActive,
+  toggleMenu,
+  setIsEditActive,
+  editProfilePic,
+  setEditProfilePic,
+}) => {
+  return (
+    <>
+      {isEditActive && (
+        <ProfilePopUp
+          toggleMenu={toggleMenu}
+          setIsEditActive={setIsEditActive}
+        />
+      )}
+
+      {editProfilePic && <Profilepic setEditProfilePic={setEditProfilePic} />}
+    </>
   );
 };
 

@@ -1,10 +1,11 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const multer = require("multer");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 const app = express();
 const cors = require("cors");
-const corsOptions = require('./config/corsOption')
+const corsOptions = require("./config/corsOption");
 const cookieParser = require("cookie-parser");
 const upload = multer();
 
@@ -19,7 +20,7 @@ const connectDB = require("./utils/connectDB");
 //middleware
 app.use(cookieParser());
 app.use(upload.any());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ limit: "10mb", extended: false }));
 app.use(cors(corsOptions));
 
 
@@ -27,14 +28,13 @@ app.use((req, res, next) => {
   if (req.originalUrl === "/api/stripe/webhook") {
     next();
   } else {
-    express.json()(req, res, next);
+    express.json({ limit: "10mb" })(req, res, next);
   }
 });
 
 app.use("/api/user", authRoutes);
 app.use("/api/stripe", stripeRoutes);
 app.use("/api/functions", userRoutes);
-
 
 app.listen(port, async () => {
   await connectDB();

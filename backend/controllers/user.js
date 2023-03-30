@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
+const service = require("../functionality/profile");
 
 const getUserProfileData = asyncHandler(async (req, res) => {
   try {
@@ -11,12 +12,18 @@ const getUserProfileData = asyncHandler(async (req, res) => {
 });
 
 const upadteUserProfile = asyncHandler(async (req, res) => {
-  const { userId } = req.body.data;
+  const { userId, profilePic } = req.body.data;
+
+  let newPicture;
+
+  if (profilePic) {
+    newPicture = await service.uploadPhoto(profilePic, userId);
+  }
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $set: req.body.data },
+      { $set: req.body.data, profilePicture: newPicture && newPicture },
       { new: true }
     ).select("-password -_id");
     res.status(200).json(updatedUser);

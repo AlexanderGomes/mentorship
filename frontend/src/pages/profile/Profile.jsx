@@ -88,7 +88,6 @@ const Profile = () => {
             <div className="profile__bottom__div">
               <div className="bottom__main">
                 <div className="bottom">
-                
                   <div className="bottom__conten__right">
                     <Project />
                   </div>
@@ -170,17 +169,6 @@ const UserInfo = ({ data, displayName, toggleMenu, setEditProfilePic }) => {
             <a href={`tel:${data?.contactNumber}`} className="contact__call">
               Call
             </a>
-          </div>
-        </div>
-
-        <div className="user__projects__posts">
-          <div className="projects">
-            <p>Projects</p>
-            <p>5</p>
-          </div>
-          <div className="posts">
-            <p>posts</p>
-            <p>5</p>
           </div>
         </div>
       </div>

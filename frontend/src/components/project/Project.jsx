@@ -7,7 +7,12 @@ import { AiFillEdit } from "react-icons/ai";
 const Project = () => {
   return (
     <div className="project__main">
-      <h2 className="project__h2">Projects</h2>
+      <div className="top__icon">
+        <h2 className="project__h2">Projects</h2>
+        <div className="blue__icon move">
+          <GrAdd />
+        </div>
+      </div>
       <div className="project__card">
         <div className="project__top">
           <h1>Daycare</h1>
@@ -17,9 +22,6 @@ const Project = () => {
             Show Project <FaShare />{" "}
           </a>
 
-          <div className="blue__icon plus">
-            <GrAdd/>
-          </div>
           <div className="blue__icon">
             <AiFillEdit />
           </div>

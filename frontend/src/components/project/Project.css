@@ -74,3 +74,14 @@
   display: flex;
   gap: 20px;
 }
+
+.top__icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.move {
+  position: relative;
+  top: -8px;
+}

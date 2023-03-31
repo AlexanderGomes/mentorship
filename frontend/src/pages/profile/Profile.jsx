@@ -83,7 +83,7 @@ const Profile = () => {
                 toggleMenu={toggleMenu}
                 setEditProfilePic={setEditProfilePic}
               />
-              <Skills />
+              <Skills data={data} />
             </div>
             <div className="profile__bottom__div">
               <div className="bottom__main">
@@ -191,27 +191,31 @@ const UserInfo = ({ data, displayName, toggleMenu, setEditProfilePic }) => {
   );
 };
 
-const Skills = () => {
+const Skills = ({ data }) => {
   return (
     <div className="user__skills">
       <h2>Skills</h2>
       <div className="skills">
-        <p>
-          <span className="skills__span">languages:</span> Java, C++, python
+        <p className={!data.languages && "no__data"}>
+          <span className="skills__span">languages: </span>{" "}
+          {data?.languages ? data?.languages : "add your languages"}
         </p>
-        <p>
-          <span className="skills__span">frameworks:</span> Angular, nextjs
+        <p className={!data?.frameworks && "no__data"}>
+          <span className="skills__span">frameworks: </span>{" "}
+          {data?.frameworks ? data?.frameworks : "add your frameworks"}
         </p>
-        <p>
-          <span className="skills__span">libraries:</span> React, Material UI
+        <p className={!data?.libraries && "no__data"}>
+          <span className="skills__span">libraries: </span>
+          {data?.libraries ? data?.libraries : "add your libraries"}
         </p>
-        <p>
-          <span className="skills__span">tools:</span> vsCode
+        <p className={!data?.tools && "no__data"}>
+          <span className="skills__span">tools: </span>{" "}
+          {data?.tools ? data?.tools : "add your your tools"}
         </p>
-        <p>
-          <span className="skills__span">others:</span> OSS
+        <p className={!data?.others && "no__data"}>
+          <span className="skills__span">others: </span>
+          {data?.others ? data?.others : "add any other skills"}
         </p>
-        <p className="skills__more">See more...</p>
       </div>
     </div>
   );

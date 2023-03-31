@@ -15,11 +15,15 @@ const userSchema = new mongoose.Schema({
   },
   contactNumber: String,
   contactEmail: String,
-
   careerTitle: String,
   profilePicture: String,
   location: String,
   aboutMe: String,
+  languages: String,
+  frameworks: String,
+  libraries: String,
+  tools: String,
+  others: String,
 });
 
 module.exports = mongoose.model("User", userSchema);

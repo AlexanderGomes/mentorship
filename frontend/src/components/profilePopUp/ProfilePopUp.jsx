@@ -28,7 +28,7 @@ const ProfilePopUp = ({ toggleMenu, setIsEditActive }) => {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -37,6 +37,11 @@ const ProfilePopUp = ({ toggleMenu, setIsEditActive }) => {
       title: `${data.careerTitle ? data.careerTitle : ""}`,
       contactNumber: `${data.contactNumber ? data.contactNumber : ""}`,
       contactEmail: `${data.contactEmail ? data.contactEmail : ""}`,
+      languages: `${data.languages ? data.languages : ""}`,
+      frameworks: `${data.frameworks ? data.frameworks : ""}`,
+      libraries: `${data.libraries ? data.libraries : ""}`,
+      tools: `${data.tools ? data.tools : ""}`,
+      others: `${data.others ? data.others : ""}`,
     },
     validationSchema: Yup.object({
       name: Yup.string().required("name is required"),
@@ -56,6 +61,11 @@ const ProfilePopUp = ({ toggleMenu, setIsEditActive }) => {
         careerTitle: values.title,
         contactNumber: values.contactNumber,
         contactEmail: values.contactEmail,
+        languages: values.languages,
+        frameworks: values.frameworks,
+        libraries: values.libraries,
+        tools: values.tools,
+        others: values.others,
       };
       updateProfile(updatedData);
     },
@@ -71,15 +81,14 @@ const ProfilePopUp = ({ toggleMenu, setIsEditActive }) => {
           </div>
         </div>
         <div className="popup__info">
-
           <form className="popup__inputs__main" onSubmit={formik.handleSubmit}>
             <button className="popup__save__btn" type="submit">
               {isLoading ? "loading..." : "save"}
             </button>
-          <div className="popup__inner__top">
-            <p>* indicates required</p>
-            <h1>Basic info</h1>
-          </div>
+            <div className="popup__inner__top">
+              <p>* indicates required</p>
+              <h1>Basic info</h1>
+            </div>
 
             <div className="popup__inputs">
               <div className="top__error">
@@ -170,6 +179,63 @@ const ProfilePopUp = ({ toggleMenu, setIsEditActive }) => {
                 id="contactEmail"
                 placeholder="example@email.com"
                 value={formik.values.contactEmail}
+                onChange={formik.handleChange}
+              />
+            </div>
+
+            <h2 className="popup__contact">Skills</h2>
+            <div className="popup__inputs">
+              <label htmlFor="languages">Languages</label>
+              <input
+                type="text"
+                name="languages"
+                id="languages"
+                placeholder="java, Javascript, C++"
+                value={formik.values.languages}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="popup__inputs">
+              <label htmlFor="frameworks">frameworks</label>
+              <input
+                type="text"
+                name="frameworks"
+                id="frameworks"
+                placeholder="Angular, Next.js"
+                value={formik.values.frameworks}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="popup__inputs">
+              <label htmlFor="libraries">libraries</label>
+              <input
+                type="text"
+                name="libraries"
+                id="libraries"
+                placeholder="Reactjs, Material UI"
+                value={formik.values.libraries}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="popup__inputs">
+              <label htmlFor="tools">tools</label>
+              <input
+                type="text"
+                name="tools"
+                id="tools"
+                placeholder="Vim"
+                value={formik.values.tools}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="popup__inputs">
+              <label htmlFor="others">others</label>
+              <input
+                type="text"
+                name="others"
+                id="others"
+                placeholder="AWS"
+                value={formik.values.others}
                 onChange={formik.handleChange}
               />
             </div>

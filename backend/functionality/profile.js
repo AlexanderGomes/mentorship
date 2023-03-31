@@ -12,6 +12,8 @@ AWS.config.update({
 const deletePrevious = async (location) => {
   const formateKey = location.split("/").pop();
 
+  console.log(formateKey);
+
   try {
     const params = {
       Bucket: "a2g-mentorship",

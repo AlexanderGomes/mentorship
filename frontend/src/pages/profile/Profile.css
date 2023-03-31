@@ -10,7 +10,7 @@
   display: flex;
   padding: 10px;
   width: 600px;
-  gap: 140px;
+  gap: 120px;
   border: 1px solid rgba(128, 128, 128, 0.405);
   border-radius: 12px;
 }
@@ -154,6 +154,7 @@
 }
 
 .skills__span {
+  color: black;
   font-family: "Roboto", sans-serif;
   font-weight: 900;
 }
@@ -234,6 +235,10 @@
 
 .file__picture {
   display: none;
+}
+
+.no__data {
+  color: gray;
 }
 
 @media screen and (max-width: 620px) {

@@ -39,7 +39,7 @@ const ProfilePic = ({ setEditProfilePic }) => {
   const updateProfile = async (data) => {
     try {
       setIsLoading(true);
-      const response = await axios.put("/api/functions/update/profile", {
+      const response = await axiosPrivate.put("/api/functions/update/profile", {
         data,
       });
       dispatch(setProfileData(response.data));

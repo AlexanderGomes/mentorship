@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { Loading, ProfilePopUp, Profilepic } from "../../components";
+import { Loading, ProfilePopUp, Profilepic, Project } from "../../components";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProfileData } from "../../features/profile/profileSlice";
@@ -88,11 +88,10 @@ const Profile = () => {
             <div className="profile__bottom__div">
               <div className="bottom__main">
                 <div className="bottom">
-                  <h2>Projects</h2>
+                
                   <div className="bottom__conten__right">
-                    <p>Add some of yout best work</p>
+                    <Project />
                   </div>
-                  <p className="seeMore__bottom">See more...</p>
                 </div>
               </div>
 
@@ -102,7 +101,6 @@ const Profile = () => {
                   <div className="bottom__conten__right">
                     <p>Any work is great to share</p>
                   </div>
-                  <p className="seeMore__bottom">See more...</p>
                 </div>
               </div>
               <div className="bottom__main">
@@ -117,7 +115,6 @@ const Profile = () => {
                       Ipsum, iusto.
                     </p>
                   </div>
-                  <p className="seeMore__bottom">See more...</p>
                 </div>
               </div>
             </div>

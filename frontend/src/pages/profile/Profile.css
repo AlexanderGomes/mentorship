@@ -178,8 +178,7 @@
 
 .bottom__main {
   display: flex;
-  justify-content: center;
-  align-items: center;
+
   width: 620px;
   border: 1px solid rgba(128, 128, 128, 0.405);
   border-radius: 12px;
@@ -188,8 +187,7 @@
 .bottom {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  padding: 10px;
+  padding: 20px;
 }
 
 .bottom h2 {
@@ -211,6 +209,8 @@
   text-transform: capitalize;
   font-family: 700;
 }
+
+
 
 .edit__profile__pic {
   position: absolute;
@@ -263,8 +263,6 @@
 
   .bottom__main {
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 105%;
     border: 1px solid rgba(128, 128, 128, 0.405);
     border-radius: 12px;

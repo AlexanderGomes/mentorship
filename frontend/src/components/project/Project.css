@@ -1,0 +1,76 @@
+.project__card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.63);
+  padding-bottom: 10px;
+}
+
+.project__card h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  margin-top: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.project__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  text-decoration: none;
+  width: 140px;
+  gap: 15px;
+  height: 25px;
+  border-radius: 10px;
+  background-color: white;
+  color: rgb(0, 149, 246);
+  border: 1.5px solid rgb(0, 149, 246);
+}
+
+.project__btn:hover {
+  background-color: rgb(0, 149, 246);
+  color: white;
+  transition: ease-in-out 0.3s;
+}
+
+.project__h2 {
+  margin-bottom: 10px;
+  color: rgb(0, 149, 246);
+  font-size: 20px;
+}
+
+.project__top {
+  display: flex;
+  align-items: center;
+}
+
+.project__icons {
+  display: flex;
+  position: absolute;
+  margin-left: 510px;
+  gap: 20px;
+}
+
+.blue__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(0, 149, 246);
+  border-radius: 50%;
+  color: rgb(0, 149, 246);
+  cursor: pointer;
+}
+
+.blue__icon:hover {
+  background-color: rgb(0, 149, 246);
+  color: white;
+  transition: ease-in-out 0.3s;
+}
+
+.icons {
+  display: flex;
+  gap: 20px;
+}

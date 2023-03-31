@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const multer = require("multer");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
@@ -35,6 +34,7 @@ app.use((req, res, next) => {
 app.use("/api/user", authRoutes);
 app.use("/api/stripe", stripeRoutes);
 app.use("/api/functions", userRoutes);
+
 
 app.listen(port, async () => {
   await connectDB();

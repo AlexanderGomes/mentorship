@@ -45,6 +45,10 @@
   align-items: center;
 }
 
+.project__top h1 {
+  text-transform: capitalize;
+}
+
 .project__icons {
   display: flex;
   position: absolute;
@@ -117,4 +121,56 @@
   border-color: transparent;
   border-radius: 12px;
   cursor: pointer;
+}
+
+.project__desc {
+  margin-top: 10px;
+}
+
+.see__more {
+  color: red;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.delete__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
+  font-size: 20px;
+}
+
+.delete__choice {
+  display: flex;
+  gap: 30px;
+  text-transform: capitalize;
+  margin-top: 10px;
+}
+
+.delete__choice p {
+  cursor: pointer;
+}
+
+.yes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: black;
+  color: green;
+  font-weight: 800;
+  width: 100px;
+}
+
+.no {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: black;
+  color: red;
+  font-weight: 800;
+  width: 100px;
 }

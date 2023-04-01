@@ -44,12 +44,16 @@ const createProject = asyncHandler(async (req, res) => {
 });
 
 const updateProject = asyncHandler(async (req, res) => {
-  const { projectId } = req.body.data;
+  const { projectId } = req.body;
 
   try {
-    const updatedProject = await Project.findByIdAndUpdate(projectId, {
-      $set: req.body.data,
-    }).select("-userId");
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    ).select("-userId");
     res.status(200).json(updatedProject);
   } catch (error) {
     res.status(400).json(error.message);
@@ -67,10 +71,20 @@ const getProject = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteProject = asyncHandler(async (req, res) => {
+  try {
+    const post = await Project.findByIdAndDelete(req.params.id);
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
 module.exports = {
   updateUserProfile,
   getUserProfileData,
   createProject,
   updateProject,
   getProject,
+  deleteProject,
 };

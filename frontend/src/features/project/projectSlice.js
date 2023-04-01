@@ -11,12 +11,31 @@ const projectSlice = createSlice({
     setProjectData: (state, action) => {
       state.projects = [...action.payload];
     },
-    updateProfileData: (state, action) => {
+    updateProjectData: (state, action) => {
       state.projects = [...state.projects, action.payload];
+    },
+    newData: (state, action) => {
+      const index = state.projects.findIndex(
+        (project) => project._id === action.payload._id
+      );
+
+      state.projects = [
+        ...state.projects.slice(0, index),
+        action.payload,
+        ...state.projects.slice(index + 1),
+      ];
+    },
+    deleteData: (state, action) => {
+      const filtered = state.projects.filter(
+        (project) => project._id !== action.payload._id
+      );
+
+      state.projects = [...filtered];
     },
   },
 });
 
-export const { setProjectData, updateProfileData } = projectSlice.actions;
+export const { setProjectData, updateProjectData, newData, deleteData } =
+  projectSlice.actions;
 
 export default projectSlice.reducer;

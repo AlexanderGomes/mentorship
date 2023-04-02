@@ -1,0 +1,33 @@
+.work__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main__content {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.63);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.work__card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.work__card h1 {
+  font-size: 20px;
+}
+
+.work__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.work__position {
+  font-family:sans-serif;
+  text-transform: capitalize;
+}

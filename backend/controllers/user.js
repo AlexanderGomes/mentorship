@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Project = require("../models/projects");
 const asyncHandler = require("express-async-handler");
 const service = require("../functionality/profile");
+const Work = require("../models/work");
 
 const getUserProfileData = asyncHandler(async (req, res) => {
   try {
@@ -80,6 +81,56 @@ const deleteProject = asyncHandler(async (req, res) => {
   }
 });
 
+const createWork = asyncHandler(async (req, res) => {
+  const newWork = new Work(req.body);
+  try {
+    const savedWork = await newWork.save();
+    res.status(200).json(savedWork);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+const updateWork = asyncHandler(async (req, res) => {
+  const { workId } = req.body;
+console.log(req.body)
+
+  try {
+    const updatedWork = await Work.findByIdAndUpdate(
+      workId,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    ).select("-userId");
+
+    res.status(200).json(updatedWork);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+
+const deleteWork = asyncHandler(async (req, res) => {
+  try {
+    const work = await Work.findByIdAndDelete(req.params.id);
+    res.status(200).json(work);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+const getWork = asyncHandler(async (req, res) => {
+  try {
+    const allWork = await Work.find({ userId: req.params.id }).select(
+      "-userId"
+    );
+    res.status(200).json(allWork);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
 module.exports = {
   updateUserProfile,
   getUserProfileData,
@@ -87,4 +138,8 @@ module.exports = {
   updateProject,
   getProject,
   deleteProject,
+  createWork,
+  updateWork,
+  deleteWork,
+  getWork
 };

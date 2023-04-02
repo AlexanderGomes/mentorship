@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./Project.css";
 
-const Project = () => {
+const Project = ({ userId }) => {
   const [isCreateActive, setIsCreateActive] = useState(false);
 
   const { id } = useSelector((state) => state.auth);
@@ -29,18 +29,21 @@ const Project = () => {
   useEffect(() => {
     const getProject = async () => {
       try {
-        const response = await axiosPrivate.get(`/api/functions/project/${id}`);
+        const response = await axiosPrivate.get(
+          `/api/functions/project/${userId}`
+        );
         dispatch(setProjectData(response.data));
       } catch (error) {
         console.log(error.message);
       }
     };
 
-    if (id) {
+    if (userId) {
       getProject();
     }
-  }, [id, dispatch]);
+  }, [userId, dispatch]);
 
+  
   return (
     <>
       {isCreateActive && (
@@ -59,23 +62,21 @@ const Project = () => {
             <GrAdd />
           </div>
         </div>
-        { projects.length > 0 ? (
+        {projects.length > 0 ? (
           projects?.map((project) => (
-          <div key={project?._id}>
-            <DisplayPost
-              project={project}
-              axiosPrivate={axiosPrivate}
-              dispatch={dispatch}
-              newData={newData}
-              deleteData={deleteData}
-            />
-          </div>
-        ))
-        ) : 
-        (
+            <div key={project?._id}>
+              <DisplayPost
+                project={project}
+                axiosPrivate={axiosPrivate}
+                dispatch={dispatch}
+                newData={newData}
+                deleteData={deleteData}
+              />
+            </div>
+          ))
+        ) : (
           <p>Add Your best Projects</p>
-        )
-        }
+        )}
       </div>
     </>
   );
@@ -185,14 +186,7 @@ const DeletePost = ({ setConfirm, deleteProject }) => {
   );
 };
 
-const EditPost = ({
-  setEdit,
-  project,
-  axiosPrivate,
-  dispatch,
-  newData,
-  deleteData,
-}) => {
+const EditPost = ({ setEdit, project, axiosPrivate, dispatch, newData }) => {
   const { id } = useSelector((state) => state.auth);
   const [isLoading, setIsloading] = useState(false);
 

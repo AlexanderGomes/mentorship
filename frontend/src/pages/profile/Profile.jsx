@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { Loading, ProfilePopUp, Profilepic, Project } from "../../components";
+import {
+  Loading,
+  ProfilePopUp,
+  Profilepic,
+  Project,
+  WorkHistory,
+} from "../../components";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProfileData } from "../../features/profile/profileSlice";
@@ -14,7 +20,6 @@ const Profile = () => {
   const [isEditActive, setIsEditActive] = useState(false);
   const [editProfilePic, setEditProfilePic] = useState(null);
   const [error, setError] = useState(null);
-  const { id, accessToken } = useSelector((state) => state.auth);
 
   const { userId } = useParams();
   const { data } = useSelector((state) => state.profile);
@@ -89,17 +94,14 @@ const Profile = () => {
               <div className="bottom__main">
                 <div className="bottom">
                   <div className="bottom__conten__right">
-                    <Project />
+                    <Project userId={userId} />
                   </div>
                 </div>
               </div>
 
               <div className="bottom__main">
                 <div className="bottom">
-                  <h2>Work History / Internship / Freelance Work </h2>
-                  <div className="bottom__conten__right">
-                    <p>Any work is great to share</p>
-                  </div>
+                  <WorkHistory userId={userId} />
                 </div>
               </div>
               <div className="bottom__main">

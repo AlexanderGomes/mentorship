@@ -6,6 +6,7 @@ import {
   Profilepic,
   Project,
   WorkHistory,
+  About,
 } from "../../components";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -106,16 +107,7 @@ const Profile = () => {
               </div>
               <div className="bottom__main">
                 <div className="bottom">
-                  <h2>About me</h2>
-                  <div className="bottom__conten__left">
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Vitae mollitia obcaecati, aspernatur maiores, tempore
-                      dolor alias voluptate eos sunt adipisci illum soluta
-                      assumenda autem consequuntur amet reprehenderit ratione.
-                      Ipsum, iusto.
-                    </p>
-                  </div>
+                  <About />
                 </div>
               </div>
             </div>

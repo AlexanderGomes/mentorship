@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, isMentor } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json("Please add all fields");
@@ -23,6 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password: hashedPassword,
+    isMentor: isMentor,
   });
 
   const tokens = generateTokens(user);

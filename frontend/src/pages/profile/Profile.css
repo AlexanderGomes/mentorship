@@ -214,8 +214,6 @@
   font-family: 700;
 }
 
-
-
 .edit__profile__pic {
   position: absolute;
   margin-left: 65px;
@@ -245,6 +243,13 @@
   color: gray;
 }
 
+.none {
+  display: none;
+}
+
+
+
+
 @media screen and (max-width: 620px) {
   .profile__user__info {
     display: flex;
@@ -257,7 +262,6 @@
 
   .user__skills {
     display: flex;
-    margin-top: -30px;
   }
 
   .profile__img__icon {

@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./WorkHistory.css";
 
-const WorkHistory = ({ userId }) => {
+const WorkHistory = ({ userId, allowed }) => {
   const [isCreating, setIsCreating] = useState(false);
   const dispatch = useDispatch();
   const axiosPrivate = useAxiosPrivate();
@@ -39,9 +39,11 @@ const WorkHistory = ({ userId }) => {
     <div className="work__main">
       <div className="work__top">
         <h2>Work History</h2>
-        <div className="blue__icon move" onClick={() => setIsCreating(true)}>
-          <GrAdd />
-        </div>
+        {allowed && (
+          <div className="blue__icon move" onClick={() => setIsCreating(true)}>
+            <GrAdd />
+          </div>
+        )}
       </div>
 
       {work.length > 0 ? (
@@ -52,12 +54,13 @@ const WorkHistory = ({ userId }) => {
               axiosPrivate={axiosPrivate}
               dispatch={dispatch}
               id={id}
+              allowed={allowed}
             />
           </div>
         ))
       ) : (
         <>
-          <p>Any work experience is great</p>
+          <p>{allowed ? 'Any work experience is great' : 'No working expirience yet'}</p>
         </>
       )}
 
@@ -167,7 +170,7 @@ const CreateWork = ({ setIsCreating, id, axiosPrivate, dispatch }) => {
   );
 };
 
-const WorkDisplay = ({ data, axiosPrivate, dispatch, id }) => {
+const WorkDisplay = ({ data, axiosPrivate, dispatch, id, allowed }) => {
   const [edit, setEdit] = useState(false);
   const [confirm, setConfirm] = useState(false);
 
@@ -205,12 +208,16 @@ const WorkDisplay = ({ data, axiosPrivate, dispatch, id }) => {
       <div className="main__content">
         <div className="work__card">
           <h1>{data.company}</h1>
-          <div className="blue__icon">
-            <AiFillEdit onClick={() => setEdit(true)} />
-          </div>
-          <div className="blue__icon">
-            <AiOutlineClose onClick={() => setConfirm(true)} />
-          </div>
+          {allowed && (
+            <>
+              <div className="blue__icon">
+                <AiFillEdit onClick={() => setEdit(true)} />
+              </div>
+              <div className="blue__icon">
+                <AiOutlineClose onClick={() => setConfirm(true)} />
+              </div>
+            </>
+          )}
         </div>
         <div className="work__content">
           <p className="work__position">{data.position}</p>

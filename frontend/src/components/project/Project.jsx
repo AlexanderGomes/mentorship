@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./Project.css";
 
-const Project = ({ userId }) => {
+const Project = ({ userId, allowed }) => {
   const [isCreateActive, setIsCreateActive] = useState(false);
 
   const { id } = useSelector((state) => state.auth);
@@ -43,7 +43,6 @@ const Project = ({ userId }) => {
     }
   }, [userId, dispatch]);
 
-  
   return (
     <>
       {isCreateActive && (
@@ -58,9 +57,11 @@ const Project = ({ userId }) => {
       <div className="project__main">
         <div className="top__icon">
           <h2 className="project__h2">Projects</h2>
-          <div className="blue__icon move" onClick={toggleMenu}>
-            <GrAdd />
-          </div>
+          {allowed && (
+            <div className="blue__icon move" onClick={toggleMenu}>
+              <GrAdd />
+            </div>
+          )}
         </div>
         {projects.length > 0 ? (
           projects?.map((project) => (
@@ -71,11 +72,12 @@ const Project = ({ userId }) => {
                 dispatch={dispatch}
                 newData={newData}
                 deleteData={deleteData}
+                allowed={allowed}
               />
             </div>
           ))
         ) : (
-          <p>Add Your best Projects</p>
+          <p>{allowed ? "Add Your best Projects" : "No projects"}</p>
         )}
       </div>
     </>
@@ -88,6 +90,7 @@ const DisplayPost = ({
   dispatch,
   newData,
   deleteData,
+  allowed,
 }) => {
   const [toggle, setToggle] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -142,12 +145,16 @@ const DisplayPost = ({
             Show Project <FaShare />{" "}
           </a>
 
-          <div className="blue__icon" onClick={() => setEdit(true)}>
-            <AiFillEdit />
-          </div>
-          <div className="blue__icon" onClick={() => setConfirm(true)}>
-            <AiOutlineClose />
-          </div>
+          {allowed && (
+            <>
+              <div className="blue__icon" onClick={() => setEdit(true)}>
+                <AiFillEdit />
+              </div>
+              <div className="blue__icon" onClick={() => setConfirm(true)}>
+                <AiOutlineClose />
+              </div>
+            </>
+          )}
         </div>
         <p className="project__desc">{project.desc.slice(0, descSize)}</p>
         {project.desc.length > 165 && (

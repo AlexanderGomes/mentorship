@@ -4,11 +4,12 @@ import { register, reset } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineCloseCircle, AiFillCheckCircle } from "react-icons/ai";
 import "./Register.css";
 
 const Register = () => {
   const [isEmailTaken, setIsEmailTaken] = useState(false);
+  const [isMentor, setIsMentor] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const Register = () => {
         name: values.name,
         email: values.email,
         password: values.password,
+        isMentor: isMentor,
       };
       dispatch(register(userData));
     },
@@ -147,6 +149,22 @@ const Register = () => {
             </div>
           )}
         </div>
+
+        <div className="position__all">
+          {isMentor ? (
+            <div className="mentor__message">
+              <div className="check__icon">
+                <AiFillCheckCircle />
+              </div>
+              <p> Done, Fill your information and submit</p>
+            </div>
+          ) : (
+            <p className="mentor__question" onClick={() => setIsMentor(true)}>
+              Registering as a Mentor ?
+            </p>
+          )}
+        </div>
+
         <button className="register__btn" type="submit">
           Register
         </button>

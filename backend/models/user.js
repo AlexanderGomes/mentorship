@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
   libraries: String,
   tools: String,
   others: String,
+  isMentor: Boolean,
 });
 
 module.exports = mongoose.model("User", userSchema);

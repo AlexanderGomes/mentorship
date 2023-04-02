@@ -24,6 +24,9 @@ const Profile = () => {
 
   const { userId } = useParams();
   const { data } = useSelector((state) => state.profile);
+  const { id } = useSelector((state) => state.auth);
+
+  const allowed = id === userId;
 
   const dispatch = useDispatch();
 
@@ -88,26 +91,27 @@ const Profile = () => {
                 displayName={displayName}
                 toggleMenu={toggleMenu}
                 setEditProfilePic={setEditProfilePic}
+                allowed={allowed}
               />
-              <Skills data={data} />
+              <Skills allowed={allowed} data={data} />
             </div>
             <div className="profile__bottom__div">
               <div className="bottom__main">
                 <div className="bottom">
                   <div className="bottom__conten__right">
-                    <Project userId={userId} />
+                    <Project allowed={allowed} userId={userId} />
                   </div>
                 </div>
               </div>
 
               <div className="bottom__main">
                 <div className="bottom">
-                  <WorkHistory userId={userId} />
+                  <WorkHistory allowed={allowed} userId={userId} />
                 </div>
               </div>
               <div className="bottom__main">
                 <div className="bottom">
-                  <About />
+                  <About allowed={allowed} />
                 </div>
               </div>
             </div>
@@ -118,38 +122,58 @@ const Profile = () => {
   );
 };
 
-const UserInfo = ({ data, displayName, toggleMenu, setEditProfilePic }) => {
+const UserInfo = ({
+  data,
+  displayName,
+  toggleMenu,
+  setEditProfilePic,
+  allowed,
+}) => {
   return (
     <div>
-      <div
-        className="edit__profile__pic"
-        onClick={() => setEditProfilePic(!false)}
-      >
-        <AiFillEdit />
-      </div>
+      {allowed && (
+        <div
+          className="edit__profile__pic"
+          onClick={() => setEditProfilePic(!false)}
+        >
+          <AiFillEdit />
+        </div>
+      )}
       <img
         className="profile__img"
         src={data?.profilePicture ? data?.profilePicture : defaultPicture}
         alt="profile picture"
       />
 
-      <div className="profile__img__icon" onClick={toggleMenu}>
+      <div
+        className={allowed ? "profile__img__icon" : "none"}
+        onClick={toggleMenu}
+      >
         <AiFillEdit className="icon" />
       </div>
-      <div className="user__top__main">
+
+      <div className={allowed ? "user__top__main" : "move__down"}>
         <div className="user__top__info">
           <p className="user__name">{displayName}</p>
           <div className="location__main">
             <GoLocation color={"green"} />{" "}
             <p className="user__location">
-              {data?.location ? data?.location : "add location"}
+              {data?.location
+                ? data?.location
+                : allowed
+                ? "add location"
+                : "no location"}
             </p>
           </div>
         </div>
 
         <div className="middle__info">
           <p className="user__career__title">
-            {data?.careerTitle ? data?.careerTitle : "add career title"}
+            {data?.careerTitle
+              ? data?.careerTitle
+              : allowed
+              ? "add career title"
+              : ""}
           </p>
 
           <div className="contact__btns">
@@ -170,30 +194,42 @@ const UserInfo = ({ data, displayName, toggleMenu, setEditProfilePic }) => {
   );
 };
 
-const Skills = ({ data }) => {
+const Skills = ({ data, allowed }) => {
   return (
-    <div className="user__skills">
+    <div className={allowed ? "user__skills" : "user__skills move"}>
       <h2>Skills</h2>
       <div className="skills">
         <p className={!data.languages && "no__data"}>
           <span className="skills__span">languages: </span>{" "}
-          {data?.languages ? data?.languages : "add your languages"}
+          {data?.languages
+            ? data?.languages
+            : allowed
+            ? "add your languages"
+            : ""}
         </p>
         <p className={!data?.frameworks && "no__data"}>
           <span className="skills__span">frameworks: </span>{" "}
-          {data?.frameworks ? data?.frameworks : "add your frameworks"}
+          {data?.frameworks
+            ? data?.frameworks
+            : allowed
+            ? "add your frameworks"
+            : ""}
         </p>
         <p className={!data?.libraries && "no__data"}>
           <span className="skills__span">libraries: </span>
-          {data?.libraries ? data?.libraries : "add your libraries"}
+          {data?.libraries
+            ? data?.libraries
+            : allowed
+            ? "add your libraries"
+            : ""}
         </p>
         <p className={!data?.tools && "no__data"}>
           <span className="skills__span">tools: </span>{" "}
-          {data?.tools ? data?.tools : "add your your tools"}
+          {data?.tools ? data?.tools : allowed ? "add your your tools" : ""}
         </p>
         <p className={!data?.others && "no__data"}>
           <span className="skills__span">others: </span>
-          {data?.others ? data?.others : "add any other skills"}
+          {data?.others ? data?.others : allowed ? "add any other skills" : ""}
         </p>
       </div>
     </div>

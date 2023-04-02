@@ -13,7 +13,7 @@
   gap: 20px;
   margin-top: 60px;
   background-color: rgb(255, 255, 255);
-  height: 450px;
+  height: 550px;
   width: 270px;
   border: 2px solid rgba(128, 128, 128, 0.405);
 }
@@ -90,4 +90,29 @@
 .login__email__error {
   color: red;
   margin-bottom: 2px;
+}
+
+
+.mentor__question {
+  display: inline-block;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mentor__message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 600;
+  color: rgb(0, 149, 246);
+}
+
+.position__all {
+  position: absolute;
+  margin-top: 480px;
 }

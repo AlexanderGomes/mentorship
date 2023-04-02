@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { AiOutlineClose } from "react-icons/ai";
 import "./About.css";
 
-const About = () => {
+const About = ({ allowed }) => {
   const [isCreating, setIsCreating] = useState(false);
   const [toggle, setToggle] = useState(false);
 
@@ -40,16 +40,25 @@ const About = () => {
         <h2>About me</h2>
 
         <div className="icons">
-          <div className="blue__icon move" onClick={() => setIsCreating(true)}>
-            <GrAdd />
-          </div>
+          {allowed && (
+            <div
+              className="blue__icon move"
+              onClick={() => setIsCreating(true)}
+            >
+              <GrAdd />
+            </div>
+          )}
         </div>
       </div>
 
       <div className="about__content">
-        <p>{data.aboutMe.slice(0, descSize)}</p>
+        {data?.aboutMe?.length > 0 ? (
+          <p>{data?.aboutMe?.slice(0, descSize)}</p>
+        ) : (
+          <p>{allowed ? 'Tell people more about yourself' : "No description yet"}</p>
+        )}
 
-        {data.aboutMe.length > 165 && (
+        {data?.aboutMe?.length > 165 && (
           <p onClick={toggleMenu} className="see__more">
             {seeMoreText}
           </p>
@@ -81,9 +90,10 @@ const CreatAbout = ({ setIsCreating, id, data, axiosPrivate, dispatch }) => {
       aboutMe: `${data.aboutMe ? data.aboutMe : ""}`,
     },
     validationSchema: Yup.object({
-      aboutMe: Yup.string()
-        .required("description is required")
-        .max(2000, "Description must be less than or equal to 2000 characters"),
+      aboutMe: Yup.string().max(
+        2000,
+        "Description must be less than or equal to 2000 characters"
+      ),
     }),
     onSubmit: (values) => {
       const data = {

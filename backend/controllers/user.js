@@ -132,7 +132,7 @@ const getWork = asyncHandler(async (req, res) => {
 
 const searchUsers = asyncHandler(async (req, res) => {
   const query = req.query.q;
-  const isMentor = req.query.isMentor === "mentor" ? true : false;
+  const isMentor = req.query.isMentor;
 
   const terms = query.split(",").map((term) => term.trim());
   const searchRegex = new RegExp(terms.join("|"), "i");
@@ -151,8 +151,8 @@ const searchUsers = asyncHandler(async (req, res) => {
       isMentor: isMentor,
     });
 
-    console.log(results)
-
+    console.log(results);
+    
     res.status(200).json(results);
   } catch (error) {
     res.status(400).json(error.message);

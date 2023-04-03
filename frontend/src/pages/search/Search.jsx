@@ -8,6 +8,7 @@ const Search = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
+
   const axiosPrivate = useAxiosPrivate();
 
   const handleTypeChange = (event) => {
@@ -21,9 +22,11 @@ const Search = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const isMentor = selectedType === "mentors" ? true : false;
+
     try {
       const response = await axiosPrivate.get(
-        `/api/functions/search?q=${query}&isMentor=${selectedType}`
+        `/api/functions/search?q=${query}&isMentor=${isMentor}`
       );
       setResults(response.data);
     } catch (error) {

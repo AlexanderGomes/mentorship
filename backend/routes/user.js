@@ -12,6 +12,7 @@ const {
   updateWork,
   deleteWork,
   getWork,
+  searchUsers,
 } = require("../controllers/user");
 
 const { protect } = require("../middleware/authMiddleware");
@@ -19,6 +20,7 @@ const { protect } = require("../middleware/authMiddleware");
 router.use(protect);
 
 router.get("/get/profile/:id", getUserProfileData);
+router.get("/search", searchUsers);
 router.get("/project/:id", getProject);
 router.get("/work/:id", getWork);
 router.put("/update/profile", updateUserProfile);

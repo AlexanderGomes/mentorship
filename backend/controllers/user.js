@@ -1,8 +1,8 @@
 const User = require("../models/user");
 const Project = require("../models/projects");
-const asyncHandler = require("express-async-handler");
 const service = require("../functionality/profile");
 const Work = require("../models/work");
+const asyncHandler = require("express-async-handler");
 
 const getUserProfileData = asyncHandler(async (req, res) => {
   try {
@@ -93,7 +93,7 @@ const createWork = asyncHandler(async (req, res) => {
 
 const updateWork = asyncHandler(async (req, res) => {
   const { workId } = req.body;
-console.log(req.body)
+  console.log(req.body);
 
   try {
     const updatedWork = await Work.findByIdAndUpdate(
@@ -109,7 +109,6 @@ console.log(req.body)
     res.status(400).json(error.message);
   }
 });
-
 
 const deleteWork = asyncHandler(async (req, res) => {
   try {
@@ -131,6 +130,35 @@ const getWork = asyncHandler(async (req, res) => {
   }
 });
 
+const searchUsers = asyncHandler(async (req, res) => {
+  const query = req.query.q;
+  const isMentor = req.query.isMentor === "mentor" ? true : false;
+
+  const terms = query.split(",").map((term) => term.trim());
+  const searchRegex = new RegExp(terms.join("|"), "i");
+
+  try {
+    const results = await User.find({
+      $or: [
+        { name: searchRegex },
+        { careerTitle: searchRegex },
+        { languages: searchRegex },
+        { frameworks: searchRegex },
+        { libraries: searchRegex },
+        { tools: searchRegex },
+        { others: searchRegex },
+      ],
+      isMentor: isMentor,
+    });
+
+    console.log(results)
+
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
 module.exports = {
   updateUserProfile,
   getUserProfileData,
@@ -141,5 +169,6 @@ module.exports = {
   createWork,
   updateWork,
   deleteWork,
-  getWork
+  getWork,
+  searchUsers,
 };

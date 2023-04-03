@@ -30,7 +30,7 @@ const Navbar = () => {
         </p>
       </div>
       <ul className="links__main">
-        <li>home</li>
+        <li>Search</li>
         <li>config</li>
         <Link className="remove" to={`/profile/${id}`}>
           <li>profile</li>
@@ -70,7 +70,9 @@ const MobileNav = ({ toggleMenu, isOpen, logOut, id }) => {
             </div>
 
             <ul className="ham__links">
-              <li onClick={toggleMenu}>home</li>
+              <Link className="remove" to={"/search"}>
+                <li onClick={toggleMenu}>Search</li>
+              </Link>
               <li onClick={toggleMenu}>config</li>
               <Link className="remove" to={`/profile/${id}`}>
                 <li onClick={toggleMenu}>profile</li>

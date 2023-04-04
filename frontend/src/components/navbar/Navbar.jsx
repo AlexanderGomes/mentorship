@@ -30,7 +30,9 @@ const Navbar = () => {
         </p>
       </div>
       <ul className="links__main">
-        <li>Search</li>
+        <Link className="remove" to={"/search"}>
+          <li>Search</li>
+        </Link>
         <li>config</li>
         <Link className="remove" to={`/profile/${id}`}>
           <li>profile</li>

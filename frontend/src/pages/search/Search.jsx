@@ -102,10 +102,12 @@ const Search = () => {
       <div className="content__pag">
         <div>
           {currentPosts.length > 0 ? (
-            currentPosts?.map((res) => (
-              <div className="big__page" key={res._id}>
-                <UserCard users={res} />
-              </div>
+            currentPosts?.map((res, index) => (
+              <>
+                <div className="big__page" key={index}>
+                  <UserCard users={res} />
+                </div>
+              </>
             ))
           ) : (
             <div>
@@ -124,14 +126,16 @@ const Search = () => {
           )}
         </div>
 
-        <div className="card__pagination">
-          <Pagination
-            totalPosts={results.length}
-            postsPerPage={postsPerPage}
-            setCurrentPage={setCurrentPage}
-            currentPage={currentPage}
-          />
-        </div>
+        {currentPosts.length > 0 && (
+          <div className="card__pagination">
+            <Pagination
+              totalPosts={results.length}
+              postsPerPage={postsPerPage}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
+          </div>
+        )}
       </div>
     </>
   );

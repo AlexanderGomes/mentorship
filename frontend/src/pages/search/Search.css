@@ -138,6 +138,9 @@
 }
 
 .card__desc {
+  display: flex;
+  position: relative;
+  left: -70px;
   margin-top: 10px;
   width: 80%;
   text-transform: capitalize;

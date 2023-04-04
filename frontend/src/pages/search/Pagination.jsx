@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Pagination = ({
   totalPosts,
@@ -8,35 +8,39 @@ const Pagination = ({
 }) => {
   const [limitBtn, setLimitBtn] = useState(7);
   const [first, setFirst] = useState(0);
-
   let pages = [];
 
-  let a = 100;
-
-  for (let i = 1; i <= a; i++) {
+  
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pages.push(i);
   }
+
+
 
   const handleFoward = () => {
     if (pages.length > 0) {
       setLimitBtn(limitBtn + 7);
     }
-    const firstindex = limitBtn - first === 7;
+    const firstindex = limitBtn - first === 7
 
-    if (firstindex) {
-      setFirst(first + 7);
+    if(firstindex) {
+      setFirst(first + 7)
     }
+
   };
+
+
 
   const handleBack = () => {
     if (limitBtn >= 14) {
       setLimitBtn(limitBtn - 7);
     }
+    const firstindex = limitBtn - first === 7
 
-    const firstindex = limitBtn - first === 7;
-    if (firstindex) {
-      setFirst(first - 7);
+    if(firstindex) {
+      setFirst(first - 7)
     }
+
   };
 
   return (
@@ -47,7 +51,7 @@ const Pagination = ({
           <button
             key={index}
             onClick={() => setCurrentPage(page)}
-            className="pagination-link"
+            className='pagination-link'
           >
             {page}
           </button>

@@ -137,6 +137,7 @@ const searchUsers = asyncHandler(async (req, res) => {
   const terms = query.split(",").map((term) => term.trim());
   const searchRegex = new RegExp(terms.join("|"), "i");
 
+  
   try {
     const results = await User.find({
       $or: [
@@ -145,6 +146,7 @@ const searchUsers = asyncHandler(async (req, res) => {
         { languages: searchRegex },
         { frameworks: searchRegex },
         { libraries: searchRegex },
+        { location: searchRegex },
         { tools: searchRegex },
         { others: searchRegex },
       ],

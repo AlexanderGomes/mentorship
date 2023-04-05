@@ -42,10 +42,11 @@ const Navbar = () => {
           <Link className="remove" to={"/search"}>
             <li>Search</li>
           </Link>
-          <li onClick={() => setIsConfig(true)}>config</li>
           <Link className="remove" to={`/profile/${id}`}>
             <li>profile</li>
           </Link>
+          <li onClick={() => setIsConfig(true)}>config</li>
+           <li>contract</li>
           <button className="logout__btn" onClick={logOut}>
             Log Out
           </button>
@@ -86,10 +87,11 @@ const MobileNav = ({ toggleMenu, isOpen, logOut, id, toggleConfig }) => {
               <Link className="remove" to={"/search"}>
                 <li onClick={toggleMenu}>Search</li>
               </Link>
-              <li onClick={toggleConfig}>config</li>
               <Link className="remove" to={`/profile/${id}`}>
                 <li onClick={toggleMenu}>profile</li>
               </Link>
+              <li onClick={toggleConfig}>config</li>
+              <li onClick={toggleMenu}>contract</li>
               <button className="logout__btn" onClick={logOut}>
                 Log Out
               </button>

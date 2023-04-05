@@ -14,7 +14,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { accessToken, isSuccess, isError, message } = useSelector(
+  const { id, accessToken, isSuccess, isError, message } = useSelector(
     (state) => state.auth
   );
 
@@ -53,7 +53,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isSuccess || accessToken) {
-      navigate("/dash");
+      navigate(`/profile/${id}`);
       dispatch(reset());
     }
   }, [accessToken, isSuccess]);

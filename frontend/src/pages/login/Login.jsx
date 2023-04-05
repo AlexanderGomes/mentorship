@@ -16,7 +16,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { accessToken, isSuccess, isError, message } = useSelector(
+  const { id, accessToken, isSuccess, isError, message } = useSelector(
     (state) => state.auth
   );
 
@@ -43,7 +43,7 @@ const Login = () => {
   
   useEffect(() => {
     if (isSuccess || accessToken) {
-       navigate("/dash");
+       navigate(`/profile/${id}`);
     }
 
     if (isError && message === "you email was not found") {

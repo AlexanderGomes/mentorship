@@ -1,24 +1,23 @@
 const stripe = require("stripe")(process.env.STRIPE__SECRET);
 const endpointSecret = process.env.STRIPE__ENDPOINT__SECRET;
+const User = require("../models/user");
 
-const verifyIdendity = async (req, res) => {
-  //pass userId to the metadata
+const createStripeAccount = async (req, res) => {
+  const { userId } = req.body;
+
   try {
-    const verificationSession =
-      await stripe.identity.verificationSessions.create({
-        type: "document",
-        metadata: {
-          user_id: "{{userId}}",
-        },
-        options: {
-          document: {
-            require_live_capture: true,
-            require_matching_selfie: true,
-            allowed_types: ["driving_license", "passport", "id_card"],
-          },
-        },
-      });
-    const url = verificationSession.url;
+    const account = await stripe.accounts.create({ type: "standard" });
+
+    const accountLink = await stripe.accountLinks.create({
+      account: account.id,
+      refresh_url: "http://localhost:3000/auth/login",
+      return_url: "https://dashboard.stripe.com/login",
+      type: "account_onboarding",
+    });
+
+    await User.findByIdAndUpdate({ _id: userId }, { $set: { stripeId: account.id } });
+
+    const url = accountLink.url;
     res.send({ url });
   } catch (error) {
     res.status(400).json(error.message);
@@ -36,23 +35,10 @@ const verifyIdendityHook = async (request, response) => {
     response.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
-
-  // Handle the event
-  if (event.type === "identity.verification_session.verified") {
-    //update user function
-  }
-
-  const verificationSession = event.data.object;
-
-  //create a user field where you can update the error message, clear it out when successful
-  if (verificationSession.last_error?.code) {
-    //update user function
-  }
-
   response.send();
 };
 
 module.exports = {
-  verifyIdendity,
+  createStripeAccount,
   verifyIdendityHook,
 };

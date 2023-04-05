@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const VerifyButton = ({ stripePromise }) => {
+  const { id } = useSelector((state) => state.auth);
+
   const [stripe, setStripe] = useState(null);
 
   useEffect(() => {
@@ -21,28 +24,16 @@ const VerifyButton = ({ stripePromise }) => {
       return;
     }
 
-    const response = await axios.post(
-      "/api/stripe/create-verification-session"
-    );
+    const response = await axios.post("/api/stripe/create", { userId: id });
 
     window.location.href = response.data.url;
   };
 
   return (
-    <button role="link" disabled={!stripe} onClick={handleStripe}>
+    <button className="button"  role="link" disabled={!stripe} onClick={handleStripe}>
       Verify
     </button>
   );
 };
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_IDENTITY);
-
-const Dash = () => {
-  return (
-    <div>
-      <VerifyButton stripePromise={stripePromise} />
-    </div>
-  );
-};
-
-export default Dash;
+export default VerifyButton;

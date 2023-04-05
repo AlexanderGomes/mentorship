@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Register, Login, Dash, Welcome, Profile, Search } from "./pages";
+import { Register, Login, Welcome, Profile, Search } from "./pages";
 import PersistentLogin from "./hooks/PersistentLogin";
 import Auth from "./hooks/Auth";
 import Layout from "./components/Layout";
@@ -17,7 +16,6 @@ function App() {
         <Route path="/" element={<Welcome />} />
         <Route element={<PersistentLogin />}>
           <Route element={<Auth />}>
-            <Route path="/dash" element={<Dash />} />
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/search" element={<Search />} />
           </Route>

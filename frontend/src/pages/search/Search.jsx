@@ -5,6 +5,7 @@ import defaultPicture from "../../assets/default.png";
 import { Pagination } from "../";
 import searching from "../../assets/looking.svg";
 import nonfound from "../../assets/notfound.svg";
+
 import "./Search.css";
 
 const Search = () => {
@@ -61,6 +62,7 @@ const Search = () => {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = results.slice(firstPostIndex, lastPostIndex);
 
+  
   return (
     <>
       <div className="search-bar">

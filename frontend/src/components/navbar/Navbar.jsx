@@ -4,11 +4,13 @@ import { AiOutlineClose } from "react-icons/ai";
 import { logout } from "../../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Config } from "../";
 
 import "./Navbar.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isConfig, setIsConfig] = useState(false);
 
   const { id } = useSelector((state) => state.auth);
 
@@ -22,37 +24,46 @@ const Navbar = () => {
     dispatch(logout());
   };
 
-  return (
-    <div className="nav__main">
-      <div className="nav__logo">
-        <p>
-          Career<span>Connect</span>
-        </p>
-      </div>
-      <ul className="links__main">
-        <Link className="remove" to={"/search"}>
-          <li>Search</li>
-        </Link>
-        <li>config</li>
-        <Link className="remove" to={`/profile/${id}`}>
-          <li>profile</li>
-        </Link>
-        <button className="logout__btn" onClick={logOut}>
-          Log Out
-        </button>
-      </ul>
+  const toggleConfig = () => {
+    setIsOpen(!isOpen);
+    setIsConfig(!isConfig);
+  };
 
-      <MobileNav
-        toggleMenu={toggleMenu}
-        isOpen={isOpen}
-        logOut={logOut}
-        id={id}
-      />
-    </div>
+  return (
+    <>
+      {isConfig && <Config setIsConfig={setIsConfig} />}
+      <div className="nav__main">
+        <div className="nav__logo">
+          <p>
+            Career<span>Connect</span>
+          </p>
+        </div>
+        <ul className="links__main">
+          <Link className="remove" to={"/search"}>
+            <li>Search</li>
+          </Link>
+          <li onClick={() => setIsConfig(true)}>config</li>
+          <Link className="remove" to={`/profile/${id}`}>
+            <li>profile</li>
+          </Link>
+          <button className="logout__btn" onClick={logOut}>
+            Log Out
+          </button>
+        </ul>
+
+        <MobileNav
+          toggleMenu={toggleMenu}
+          isOpen={isOpen}
+          logOut={logOut}
+          id={id}
+          toggleConfig={toggleConfig}
+        />
+      </div>
+    </>
   );
 };
 
-const MobileNav = ({ toggleMenu, isOpen, logOut, id }) => {
+const MobileNav = ({ toggleMenu, isOpen, logOut, id, toggleConfig }) => {
   return (
     <div className="hamburguer__nav">
       <div className="icon__nav" onClick={toggleMenu}>
@@ -75,7 +86,7 @@ const MobileNav = ({ toggleMenu, isOpen, logOut, id }) => {
               <Link className="remove" to={"/search"}>
                 <li onClick={toggleMenu}>Search</li>
               </Link>
-              <li onClick={toggleMenu}>config</li>
+              <li onClick={toggleConfig}>config</li>
               <Link className="remove" to={`/profile/${id}`}>
                 <li onClick={toggleMenu}>profile</li>
               </Link>

@@ -93,7 +93,6 @@ const createWork = asyncHandler(async (req, res) => {
 
 const updateWork = asyncHandler(async (req, res) => {
   const { workId } = req.body;
-  console.log(req.body);
 
   try {
     const updatedWork = await Work.findByIdAndUpdate(

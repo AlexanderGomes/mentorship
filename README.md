@@ -7,3 +7,15 @@
 <img width="1440" alt="Screenshot 2023-04-05 at 8 55 07 PM" src="https://user-images.githubusercontent.com/98370540/230269194-89efded0-523a-4a42-8634-060af7042fa7.png">
 
 
+. Demo of a Mentorship app where mentors can look for people to teach and those seeking mentorship can look for a mentor, both of them can start contracts
+
+
+
+# how to start
+
+from the root do the following:
+
+- npm install
+- cd frontend - npm install
+- npm run client
+- npm run server

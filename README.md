@@ -1,4 +1,4 @@
-# mentorship
+# Mentorship App
 
 <img width="1440" alt="Screenshot 2023-04-05 at 8 56 04 PM" src="https://user-images.githubusercontent.com/98370540/230269076-af83a8ea-ff9e-4b56-91e7-6af96547af97.png">
 <img width="1440" alt="Screenshot 2023-04-05 at 8 56 21 PM" src="https://user-images.githubusercontent.com/98370540/230269112-61f284f3-3dcd-4c84-8850-7950bf485e15.png">

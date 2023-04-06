@@ -3,6 +3,7 @@ import "./Contract.css";
 import { AiOutlineClose } from "react-icons/ai";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useSelector } from "react-redux";
+import { is } from "date-fns/locale";
 const Contract = ({ setIsCon }) => {
   const [contracts, setContracts] = useState([]);
   const [isMentor, setIsMentor] = useState([]);
@@ -22,20 +23,22 @@ const Contract = ({ setIsCon }) => {
     getUser();
   }, [id]);
 
-  useEffect(() => {
-    const getContract = async () => {
-      try {
-        const res = await axiosPrivate.get(
-          `/api/contract/get?id=${id}&isMentor=${isMentor}`
-        );
-        setContracts(res.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
+  const getContract = async () => {
+    try {
+      const res = await axiosPrivate.get(
+        `/api/contract/get?id=${id}&isMentor=${isMentor}`
+      );
+      setContracts(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-    getContract();
-  }, [id, isMentor]);
+  useEffect(() => {
+    if (isMentor !== null && id !== null) {
+      getContract();
+    }
+  }, [isMentor]);
 
   return (
     <div className="popup_outer stop">

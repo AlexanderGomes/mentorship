@@ -43,7 +43,7 @@ const Login = () => {
   
   useEffect(() => {
     if (isSuccess || accessToken) {
-       navigate(`/profile/${id}`);
+       navigate("/search");
     }
 
     if (isError && message === "you email was not found") {

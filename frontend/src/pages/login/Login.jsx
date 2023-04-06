@@ -123,7 +123,7 @@ const Login = () => {
         <div className="register__redirect">
           <p>
             Don't have an account?{" "}
-            <a className="register__redirect__link" href="/auth/register">
+            <a className="register__redirect__link" href="/">
               Register
             </a>{" "}
           </p>

@@ -53,7 +53,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isSuccess || accessToken) {
-      navigate(`/profile/${id}`);
+      navigate('/search');
       dispatch(reset());
     }
   }, [accessToken, isSuccess]);

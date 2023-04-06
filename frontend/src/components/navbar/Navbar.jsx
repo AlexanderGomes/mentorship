@@ -4,13 +4,14 @@ import { AiOutlineClose } from "react-icons/ai";
 import { logout } from "../../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Config } from "../";
+import { Config, Contract } from "../";
 
 import "./Navbar.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConfig, setIsConfig] = useState(false);
+  const [isCon, setIsCon] = useState(false);
 
   const { id } = useSelector((state) => state.auth);
 
@@ -29,9 +30,15 @@ const Navbar = () => {
     setIsConfig(!isConfig);
   };
 
+  const toggleCotract = () => {
+    setIsOpen(!isOpen);
+    setIsCon(!isCon);
+  };
+
   return (
     <>
       {isConfig && <Config setIsConfig={setIsConfig} />}
+      {isCon && <Contract setIsCon={setIsCon} />}
       <div className="nav__main">
         <div className="nav__logo">
           <p>
@@ -46,7 +53,9 @@ const Navbar = () => {
             <li>profile</li>
           </Link>
           <li onClick={() => setIsConfig(true)}>config</li>
-           <li>contract</li>
+
+          <li onClick={() => setIsCon(true)}>contract</li>
+
           <button className="logout__btn" onClick={logOut}>
             Log Out
           </button>
@@ -58,13 +67,21 @@ const Navbar = () => {
           logOut={logOut}
           id={id}
           toggleConfig={toggleConfig}
+          toggleCotract={toggleCotract}
         />
       </div>
     </>
   );
 };
 
-const MobileNav = ({ toggleMenu, isOpen, logOut, id, toggleConfig }) => {
+const MobileNav = ({
+  toggleMenu,
+  isOpen,
+  logOut,
+  id,
+  toggleConfig,
+  toggleCotract,
+}) => {
   return (
     <div className="hamburguer__nav">
       <div className="icon__nav" onClick={toggleMenu}>
@@ -91,7 +108,9 @@ const MobileNav = ({ toggleMenu, isOpen, logOut, id, toggleConfig }) => {
                 <li onClick={toggleMenu}>profile</li>
               </Link>
               <li onClick={toggleConfig}>config</li>
-              <li onClick={toggleMenu}>contract</li>
+
+              <li onClick={toggleCotract}>contract</li>
+
               <button className="logout__btn" onClick={logOut}>
                 Log Out
               </button>

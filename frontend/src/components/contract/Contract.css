@@ -1,0 +1,43 @@
+.display__main {
+  border: 1px solid rgba(0, 0, 0, 0.402);
+  width: 250px;
+  min-height: 150px;
+  margin-top: 20px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+
+.contract__content {
+  overflow-y: scroll;
+}
+
+.p__contract {
+  text-align: center;
+  color: rgb(0, 149, 246);
+  margin-top: 20px;
+}
+
+
+.up {
+    height: 400px;
+}
+
+.contract {
+    top: 250px;
+}
+
+.warning-message {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .message-text {
+    color: #ff4d4db7;
+    font-weight: bold;
+  }
+  

@@ -8,3 +8,4 @@ export { default as WorkHistory } from "./workHistory/WorkHistory";
 export { default as About } from "./aboutMe/About";
 export { default as Config } from "./config/Config";
 export { default as StripeBtn } from "./stripeBtn/VerifyButton";
+export { default as Contract } from "./contract/Contract";

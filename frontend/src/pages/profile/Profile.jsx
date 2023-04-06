@@ -11,15 +11,18 @@ import {
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProfileData } from "../../features/profile/profileSlice";
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillEdit, AiOutlineClose } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 import defaultPicture from "../../assets/default.png";
 import "./Profile.css";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Profile = () => {
   const [displayName, setDisplayName] = useState(null);
   const [isEditActive, setIsEditActive] = useState(false);
   const [editProfilePic, setEditProfilePic] = useState(null);
+  const [contract, setContract] = useState(false);
   const [error, setError] = useState(null);
 
   const { userId } = useParams();
@@ -27,6 +30,7 @@ const Profile = () => {
   const { id } = useSelector((state) => state.auth);
 
   const allowed = id === userId;
+  const contarctAllowed = id !== userId;
 
   const dispatch = useDispatch();
 
@@ -83,6 +87,11 @@ const Profile = () => {
             setIsEditActive={setIsEditActive}
             editProfilePic={editProfilePic}
             setEditProfilePic={setEditProfilePic}
+            contract={contract}
+            setContract={setContract}
+            id={id}
+            data={data}
+            axiosPrivate={axiosPrivate}
           />
           <div className="profile__main__div">
             <div className="profile__user__info">
@@ -92,6 +101,8 @@ const Profile = () => {
                 toggleMenu={toggleMenu}
                 setEditProfilePic={setEditProfilePic}
                 allowed={allowed}
+                setContract={setContract}
+                contarctAllowed={contarctAllowed}
               />
               <Skills allowed={allowed} data={data} />
             </div>
@@ -128,6 +139,8 @@ const UserInfo = ({
   toggleMenu,
   setEditProfilePic,
   allowed,
+  setContract,
+  contarctAllowed,
 }) => {
   return (
     <div>
@@ -188,6 +201,11 @@ const UserInfo = ({
               Call
             </a>
           </div>
+          {contarctAllowed && (
+            <button className="contract__btn" onClick={() => setContract(true)}>
+              Contract
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -242,6 +260,11 @@ const PopUps = ({
   setIsEditActive,
   editProfilePic,
   setEditProfilePic,
+  contract,
+  setContract,
+  id,
+  data,
+  axiosPrivate,
 }) => {
   return (
     <>
@@ -253,7 +276,129 @@ const PopUps = ({
       )}
 
       {editProfilePic && <Profilepic setEditProfilePic={setEditProfilePic} />}
+      {contract && (
+        <Contract
+          axiosPrivate={axiosPrivate}
+          id={id}
+          data={data}
+          setContract={setContract}
+        />
+      )}
     </>
+  );
+};
+
+const Contract = ({ setContract, id, data, axiosPrivate }) => {
+  const [currentUser, setCurrentUser] = useState([]);
+  const [isloading, setIsloading] = useState(false);
+
+  const createContract = async (info) => {
+    try {
+      setIsloading(true);
+      await axiosPrivate.post("/api/contract", info);
+      setIsloading(false);
+      setContract(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      agrement: "",
+      term: "",
+      price: "",
+    },
+    validationSchema: Yup.object({
+      agrement: Yup.string().required("agrement is required"),
+      term: Yup.string().required("term is required"),
+      price: Yup.string().required("price is required"),
+    }),
+    onSubmit: (values) => {
+      const info = {
+        userId: data._id,
+        mentorId: id,
+        agrement: values.agrement,
+        term: values.term,
+        price: values.price,
+      };
+      createContract(info);
+    },
+  });
+
+  useEffect(() => {
+    const getUserById = async () => {
+      try {
+        const res = await axiosPrivate.get(`/api/functions/get/profile/${id}`);
+        setCurrentUser(res.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    getUserById();
+  }, [id]);
+
+  return (
+    <div className="popup_outer stop">
+      <div className="popup__inner">
+        <div className="popup_top">
+          <p className="popup__top__text">Contract</p>
+          <div className="close__icon" onClick={() => setContract(false)}>
+            <AiOutlineClose />
+          </div>
+        </div>
+
+        <div className="contract__content">
+          <h1>
+            Creat Your <span>contract request</span>
+          </h1>
+          <p>
+            This is an agreement between <span>{data.name}</span> and{" "}
+            <span>{currentUser.name}</span>
+          </p>
+
+          <form className="main__inputs" onSubmit={formik.handleSubmit}>
+            <div className="about-me-input">
+              <label htmlFor="aboutMe">Contract Terms && Conditions</label>
+              <textarea
+                className="about__input"
+                type="text"
+                name="agrement"
+                id="agrement"
+                value={formik.values.agrement}
+                onChange={formik.handleChange}
+                placeholder="Define the Contract Requirements"
+                rows={5}
+              />
+            </div>
+            <div className="input__div">
+              <label htmlFor="date">Finish Date</label>
+              <input
+                type="date"
+                name="term"
+                id="term"
+                value={formik.values.term}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="input__div">
+              <label htmlFor="price">Price</label>
+              <input
+                type="number"
+                name="price"
+                id="price"
+                value={formik.values.price}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <button className="btn move__btn" type="submit">
+              {isloading ? "loading..." : "create"}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

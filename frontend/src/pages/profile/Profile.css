@@ -247,8 +247,70 @@
   display: none;
 }
 
+.contract__btn {
+  margin-top: 20px;
+  font-size: 15px;
+  border-radius: 12px;
+  border-color: transparent;
+  background-color: rgba(8, 68, 8, 0.452);
+  color: white;
+  cursor: pointer;
+  width: 100px;
+}
 
+.contract__btn:hover {
+  background-color: green;
+  transition: ease-in-out 0.3s;
+}
 
+.contract__content h1 {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 20px;
+  text-transform: capitalize;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.contract__content span {
+  color: rgb(0, 149, 246);
+}
+
+.contract__content p {
+  text-align: center;
+  margin-top: 20px;
+  color: gray;
+  text-transform: capitalize;
+}
+
+.contract__content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.about-me-input {
+  margin-top: 30px;
+}
+
+.input__div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 280px;
+  margin-left: 32px;
+}
+
+.main__inputs {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+gap: 10px;
+}
+
+.move__btn {
+  margin-top: 10px;
+}
 
 @media screen and (max-width: 620px) {
   .profile__user__info {
